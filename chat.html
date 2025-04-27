@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>SovaApp — Чаты</title>
+  <meta name="viewport" content="width=900">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      background: #f7faf7;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .chat-layout {
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 320px;
+      background: #fff;
+      border-right: 1.5px solid #e2ece4;
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 12px 0;
+    }
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 26px 22px 14px 22px;
+      gap: 14px;
+    }
+    .sova-logo {
+      width: 48px; height: 48px; background: none;
+    }
+    .sidebar-title {
+      font-size: 26px;
+      font-weight: bold;
+      color: #222;
+      letter-spacing: 1px;
+    }
+    .new-chat-btn {
+      margin: 0 18px 12px 18px;
+      padding: 11px 0;
+      background: #20a042;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .19s;
+    }
+    .new-chat-btn:hover { background: #188335; }
+    .chat-list {
+      flex: 1;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+    .chat-item {
+      display: flex;
+      align-items: center;
+      padding: 11px 22px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background .15s;
+    }
+    .chat-item:hover { background: #eef7ef; }
+    .chat-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: #7ec58f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      color: #fff;
+      font-weight: bold;
+      margin-right: 16px;
+    }
+    .chat-info { flex: 1; }
+    .chat-title { font-size: 17px; font-weight: 600; }
+    .chat-last { color: #808e7a; font-size: 14px; margin-top: 2px; }
+    .chat-time { color: #90a590; font-size: 13px; margin-left: 8px; }
+    .logout {
+      margin: 16px 0 0 22px;
+      color: #444;
+      font-size: 17px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .logout:hover { text-decoration: underline; }
+    .main-content {
+      flex: 1;
+      background: #f7faf7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+    }
+    .welcome-logo {
+      width: 115px; height: 115px; margin-bottom: 18px;
+    }
+    .main-title {
+      font-size: 34px;
+      font-weight: bold;
+      color: #27342b;
+      margin-bottom: 8px;
+    }
+    .main-subtitle {
+      font-size: 23px;
+      font-weight: 600;
+      color: #263d2d;
+      margin-bottom: 8px;
+    }
+    .main-desc {
+      color: #798a7e;
+      font-size: 17px;
+    }
+    @media (max-width: 600px) {
+      .chat-layout { flex-direction: column; }
+      .sidebar { width: 100vw; min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-layout">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <!-- ЛОГОТИП СОВЫ SVG -->
+        <svg class="sova-logo" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" fill="#20A042"/>
+          <ellipse cx="39" cy="25" rx="7" ry="7" fill="#121212"/>
+          <ellipse cx="21" cy="27" rx="6" ry="6.5" fill="#121212"/>
+          <ellipse cx="39" cy="25" rx="2.5" ry="2.6" fill="#21bb49"/>
+          <ellipse cx="21" cy="27" rx="1.9" ry="2" fill="#30d053"/>
+          <ellipse cx="32" cy="39" rx="8" ry="6" fill="#158031"/>
+          <ellipse cx="42" cy="29" rx="3" ry="2.2" fill="#FF6B21"/>
+        </svg>
+        <span class="sidebar-title">SovaApp</span>
+      </div>
+      <button class="new-chat-btn">+ Новый чат</button>
+      <div class="chat-list">
+        <!-- Пример чатов, дальше будет из базы -->
+        <div class="chat-item">
+          <div class="chat-avatar">A</div>
+          <div class="chat-info">
+            <div class="chat-title">Chat 1</div>
+            <div class="chat-last">Hello!</div>
+          </div>
+          <div class="chat-time">10:32</div>
+        </div>
+        <div class="chat-item">
+          <div class="chat-avatar" style="background:#6ea9dd;">CD</div>
+          <div class="chat-info">
+            <div class="chat-title">Chat 2</div>
+            <div class="chat-last">How are you?</div>
+          </div>
+          <div class="chat-time">09:21</div>
+        </div>
+        <div class="chat-item">
+          <div class="chat-avatar" style="background:#7ec58f;">E</div>
+          <div class="chat-info">
+            <div class="chat-title">Chat 3</div>
+            <div class="chat-last">Hi!</div>
+          </div>
+          <div class="chat-time">Вт</div>
+        </div>
+      </div>
+      <a class="logout" href="index.html">&#8592; Logout</a>
+    </div>
+    <div class="main-content">
+      <svg class="welcome-logo" viewBox="0 0 60 60" fill="none">
+        <circle cx="30" cy="30" r="28" fill="#20A042"/>
+        <ellipse cx="39" cy="25" rx="7" ry="7" fill="#121212"/>
+        <ellipse cx="21" cy="27" rx="6" ry="6.5" fill="#121212"/>
+        <ellipse cx="39" cy="25" rx="2.5" ry="2.6" fill="#21bb49"/>
+        <ellipse cx="21" cy="27" rx="1.9" ry="2" fill="#30d053"/>
+        <ellipse cx="32" cy="39" rx="8" ry="6" fill="#158031"/>
+        <ellipse cx="42" cy="29" rx="3" ry="2.2" fill="#FF6B21"/>
+      </svg>
+      <div class="main-title">SovaApp</div>
+      <div class="main-subtitle">Добро пожаловать в SovaApp</div>
+      <div class="main-desc">Выберите чат слева или создайте новый.</div>
+    </div>
+  </div>
+</body>
+</html>
