@@ -6,21 +6,27 @@
   <meta name="viewport" content="width=400">
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Анимация совы на скейте */
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle, #f7faf7 60%, #ddebe0 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* Loader full overlay */
     #loader-modal {
       display: none;
       position: fixed;
       left: 0; top: 0; right: 0; bottom: 0;
       z-index: 10000;
-      background: rgba(243,248,245, 0.88);
+      background: rgba(243,248,245, 0.96);
       align-items: center;
       justify-content: center;
       transition: opacity .6s;
     }
-    #loader-modal.active {
-      display: flex;
-      opacity: 1;
-    }
+    #loader-modal.active { display: flex; opacity: 1; }
+    /* --- Оживлённая SVG анимация совы --- */
     .skate-owl-anim {
       display: flex;
       flex-direction: column;
@@ -28,37 +34,73 @@
       animation: popin .5s;
     }
     @keyframes popin {
-      0% { transform: scale(0.7) translateY(60px); opacity: 0;}
+      0% { transform: scale(0.8) translateY(60px); opacity: 0;}
       100% { transform: scale(1) translateY(0); opacity: 1;}
     }
     .skate-owl-svg {
-      width: 105px; height: 105px;
-      animation: skate-move 2s cubic-bezier(.74,-0.15,.21,1.14);
+      width: 110px; height: 110px;
+      animation: skate-move 1.5s cubic-bezier(.68,-0.25,.29,1.25);
+      /* Немного прыгает при катании */
     }
     @keyframes skate-move {
-      0%   { transform: translateX(-120px) rotate(-9deg);}
-      30%  { transform: translateX(10px) rotate(2deg);}
-      65%  { transform: translateX(35px) rotate(-2deg);}
-      100% { transform: translateX(120px) rotate(0deg);}
+      0%   { transform: translateX(-180px) rotate(-16deg);}
+      60%  { transform: translateX(18px) rotate(4deg);}
+      100% { transform: translateX(180px) rotate(-2deg);}
     }
+    /* Текст "Loading chats..." плавно появляется */
     .skate-owl-title {
       margin-top: 18px;
       font-size: 21px;
       color: #217c39;
       font-weight: bold;
       letter-spacing: 1px;
-      animation: skate-text-fade 1.7s;
+      opacity: 0;
+      animation: skate-text-fade 1.4s 0.2s forwards;
     }
     @keyframes skate-text-fade {
       0% {opacity:0;}
-      12% {opacity:.6;}
-      20% {opacity:1;}
-      85% {opacity:1;}
-      100% {opacity:0;}
+      60% {opacity:0;}
+      80% {opacity:1;}
+      100% {opacity:1;}
     }
+    /* --- Конец анимации совы --- */
+
+    /* Скрывать весь основной контент, когда loader активен */
+    .main-container.hide { filter: blur(5px); pointer-events: none; user-select: none; opacity: 0.45; }
   </style>
 </head>
 <body>
+  <!-- Loader-анимация -->
+  <div id="loader-modal">
+    <div class="skate-owl-anim">
+      <svg class="skate-owl-svg" viewBox="0 0 110 110">
+        <!-- Тень -->
+        <ellipse cx="56" cy="102" rx="24" ry="6.2" fill="#b9cdb9" opacity=".39"/>
+        <!-- Скейт -->
+        <rect x="40" y="90" width="36" height="9" rx="5" fill="#232d21" />
+        <ellipse cx="50" cy="100" rx="4" ry="4" fill="#444" />
+        <ellipse cx="66" cy="100" rx="4" ry="4" fill="#444" />
+        <!-- Сова -->
+        <g id="skate-owl-group">
+          <ellipse cx="60" cy="66" rx="37" ry="30" fill="#20A042" />
+          <ellipse cx="45" cy="73" rx="14" ry="15" fill="#158031" />
+          <ellipse cx="80" cy="56" rx="10" ry="12" fill="#158031" />
+          <!-- Глаз (анимирован моргает) -->
+          <ellipse id="skate-owl-eye" cx="76" cy="56" rx="8.6" ry="8.6" fill="#121212"/>
+          <ellipse id="skate-owl-eyelid" cx="76" cy="56" rx="8.6" ry="8.6" fill="#20A042" opacity="0"/>
+          <!-- Клюв -->
+          <ellipse cx="92" cy="60" rx="6" ry="5" fill="#FF6B21"/>
+          <!-- Румянец/щёчка -->
+          <ellipse cx="84" cy="66" rx="2.9" ry="2.4" fill="#FF9B5D" />
+          <!-- Крыло (немного покачивается) -->
+          <ellipse id="skate-owl-wing" cx="64" cy="84" rx="11" ry="7" fill="#217c39"/>
+        </g>
+      </svg>
+      <div class="skate-owl-title">Loading chats...</div>
+    </div>
+  </div>
+  <!-- Конец loader -->
+
   <div class="main-container">
     <header class="header">
       <div class="logo-anim">
@@ -100,36 +142,11 @@
     </div>
   </div>
 
-  <!-- Loader Modal (ANIMATION) -->
-  <div id="loader-modal">
-    <div class="skate-owl-anim">
-      <svg class="skate-owl-svg" viewBox="0 0 120 70" fill="none">
-        <g>
-          <!-- Скейтборд -->
-          <rect x="42" y="52" rx="8" width="36" height="11" fill="#262626"/>
-          <ellipse cx="52" cy="64" rx="5" ry="4" fill="#909090"/>
-          <ellipse cx="68" cy="64" rx="5" ry="4" fill="#909090"/>
-          <ellipse cx="52" cy="64" rx="2.5" ry="2" fill="#2e2e2e"/>
-          <ellipse cx="68" cy="64" rx="2.5" ry="2" fill="#2e2e2e"/>
-          <!-- Сова -->
-          <ellipse cx="60" cy="38" rx="25" ry="22" fill="#20A042"/>
-          <ellipse cx="78" cy="32" rx="11" ry="13" fill="#158031"/>
-          <ellipse cx="75" cy="41" rx="15" ry="9" fill="#158031"/>
-          <ellipse cx="90" cy="40" rx="6.2" ry="4.6" fill="#FF6B21"/>
-          <!-- Глаз -->
-          <ellipse cx="74" cy="26.5" rx="8" ry="8.1" fill="#141614"/>
-          <!-- Клюв -->
-          <ellipse cx="88" cy="41.5" rx="4.4" ry="3.1" fill="#ff8134"/>
-          <!-- Мигающий глаз -->
-          <ellipse id="owl-eye-loader" cx="74" cy="26.5" rx="8" ry="8.1" fill="#20A042" opacity="0"/>
-        </g>
-      </svg>
-      <div class="skate-owl-title">Welcome! Loading chats...</div>
-    </div>
-  </div>
-
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script>
-    // Анимация совы (шапка) — мигает
+    // Анимация моргания совы на форме логина
     window.onload = function() {
       setTimeout(() => {
         document.getElementById('owl').classList.add('visible');
@@ -144,7 +161,7 @@
       }, 300);
     };
 
-    // Переключение форм
+    // Переключение между формами
     document.addEventListener("DOMContentLoaded", function() {
       document.getElementById('show-register').onclick = function(e) {
         e.preventDefault();
@@ -158,22 +175,7 @@
       };
     });
 
-    // Loader: мигание совы в анимации
-    function animateOwlEye() {
-      const loaderEye = document.getElementById('owl-eye-loader');
-      if (!loaderEye) return;
-      loaderEye.style.transition = "opacity 0.14s";
-      loaderEye.style.opacity = 1;
-      setTimeout(() => {
-        loaderEye.style.opacity = 0;
-      }, 180);
-    }
-  </script>
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script>
-    // Твой firebaseConfig:
+    // --- Firebase config ---
     const firebaseConfig = {
       apiKey: "AIzaSyAgtQbNUA0-MJjAzDhD4UZ0s-LlW17qGRc",
       authDomain: "sovaapp-a1279.firebaseapp.com",
@@ -185,6 +187,7 @@
     };
     firebase.initializeApp(firebaseConfig);
 
+    // Регистрация и логин
     document.addEventListener("DOMContentLoaded", function() {
       const auth = firebase.auth();
 
@@ -208,22 +211,14 @@
           });
       };
 
-      // Вход (Sign In)
+      // Вход
       document.getElementById('login-btn').onclick = function() {
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
         document.getElementById('login-error').innerText = '';
         auth.signInWithEmailAndPassword(email, password)
           .then(() => {
-            document.getElementById('login-error').style.color = '#219653';
-            document.getElementById('login-error').innerText = "Login successful!";
-            // Показываем loader
-            setTimeout(() => {
-              document.getElementById('login-form').style.display = 'none';
-              showLoaderAndRedirect();
-              document.getElementById('login-error').innerText = '';
-              document.getElementById('login-error').style.color = '#c03';
-            }, 800);
+            showLoaderAndGoToChats();
           })
           .catch(error => {
             document.getElementById('login-error').innerText = error.message;
@@ -231,16 +226,31 @@
       };
     });
 
-    // ---- Loader and redirect logic ----
-    function showLoaderAndRedirect() {
-      const loader = document.getElementById('loader-modal');
-      loader.classList.add('active');
-      // "Мигание" глазом через 800мс
-      setTimeout(() => animateOwlEye(), 800);
-      // Через 2.1 сек переход на чаты
+    // --- Анимация перехода к чатам ---
+    function showLoaderAndGoToChats() {
+      // Прячем весь основной контент
+      document.querySelector('.main-container').classList.add('hide');
+      // Показываем loader
+      document.getElementById('loader-modal').classList.add('active');
+
+      // Анимация: моргнуть + взмахнуть крылом
       setTimeout(() => {
-        window.location.href = "chats.html";
-      }, 2100);
+        const eyelid = document.getElementById('skate-owl-eyelid');
+        eyelid.style.transition = "opacity 0.13s";
+        eyelid.style.opacity = 1;
+        setTimeout(() => { eyelid.style.opacity = 0; }, 100);
+
+        // Крыло: немного "взмахнуть"
+        const wing = document.getElementById('skate-owl-wing');
+        wing.setAttribute('rx', '15');
+        setTimeout(() => { wing.setAttribute('rx', '11'); }, 220);
+
+      }, 350);
+
+      // Через 1.7с — переход на чаты
+      setTimeout(() => {
+        window.location.href = "chat.html";
+      }, 1700);
     }
   </script>
 </body>
