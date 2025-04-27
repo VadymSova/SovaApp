@@ -1,54 +1,81 @@
 body {
-  background: #eef1f7;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+    background: radial-gradient(circle at 50% 30%, #eceff1 60%, #cfd8dc 100%);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
 }
 .main-container {
-  width: 350px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 2px 18px #0001;
-  padding: 32px 24px 24px 24px;
+    max-width: 350px;
+    margin: 70px auto 0 auto;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 8px 32px 0 rgba(60, 80, 100, 0.13);
+    padding: 32px 24px 28px 24px;
 }
 .header {
-  text-align: center;
-  margin-bottom: 24px;
+    text-align: center;
+    margin-bottom: 15px;
 }
 .logo {
-  width: 60px;
-  margin-bottom: 10px;
+    width: 56px;
+    transition: opacity 0.1s;
+    display: block;
+    margin: 0 auto 7px auto;
 }
 .logo-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #234;
-  display: block;
-  margin-top: 6px;
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #37474f;
 }
-.auth-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.auth-container h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 20px 0 18px 0;
+    color: #222;
 }
-.auth-container input {
-  padding: 10px;
-  border: 1px solid #d6d6d6;
-  border-radius: 6px;
-  font-size: 15px;
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px 13px;
+    margin-bottom: 12px;
+    border: 1.4px solid #b0bec5;
+    border-radius: 10px;
+    background: #f5f5f5;
+    font-size: 1rem;
+    transition: border-color 0.2s;
 }
-.auth-container button {
-  background: #33a070;
-  color: #fff;
-  border: none;
-  padding: 10px 0;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
+input:focus {
+    border-color: #3cb371;
+    outline: none;
 }
-.auth-container button:hover {
-  background: #288157;
+button {
+    width: 100%;
+    padding: 11px;
+    background: #3cb371;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 7px;
+    box-shadow: 0 2px 10px 0 #90caf940;
+    transition: background 0.18s;
+}
+button:hover {
+    background: #388e5c;
+}
+.register-link {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 1rem;
+}
+.register-link a {
+    color: #3cb371;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 7px;
+}
+.register-link a:hover {
+    text-decoration: underline;
 }
