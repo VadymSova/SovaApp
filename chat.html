@@ -314,4 +314,111 @@
         <svg class="owl-logo" viewBox="0 0 44 44" fill="none">
           <circle cx="22" cy="22" r="20" fill="#21a042"/>
           <ellipse cx="16" cy="18" rx="5" ry="6" fill="#171818"/>
-          <ellipse cx="28" cy="18"
+          <ellipse cx="28" cy="18" rx="5" ry="6" fill="#171818"/>
+          <ellipse cx="22" cy="30" rx="2.5" ry="2" fill="#f19d38"/>
+        </svg>
+        <span class="title">SovaApp</span>
+      </div>
+      <button class="btn-new-chat" id="newChatBtn">+ Новый чат</button>
+      <div class="chats-list" id="chatsList">
+        <!-- Пример чатов -->
+        <div class="chat-item">
+          <div class="avatar">L</div>
+          <div class="chat-meta">
+            <div class="chat-name">Low</div>
+            <div class="chat-preview">Нет сообщений</div>
+          </div>
+        </div>
+        <div class="chat-item">
+          <div class="avatar">S</div>
+          <div class="chat-meta">
+            <div class="chat-name">SovaTest</div>
+            <div class="chat-preview">Нет сообщений</div>
+          </div>
+        </div>
+      </div>
+      <div class="logout-row">
+        <button class="btn-logout" id="logoutBtn">Выйти</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="center-greet" id="centerGreet">
+        <svg class="owl-main" viewBox="0 0 84 84" fill="none">
+          <circle cx="42" cy="42" r="40" fill="#21a042"/>
+          <ellipse cx="30" cy="36" rx="9" ry="10" fill="#171818"/>
+          <ellipse cx="54" cy="36" rx="9" ry="10" fill="#171818"/>
+          <ellipse cx="42" cy="57" rx="4.7" ry="4" fill="#f19d38"/>
+        </svg>
+        <div class="greet-title">Нет сообщений</div>
+        <div class="greet-sub">Поприветствуйте собеседника!</div>
+      </div>
+    </div>
+  </div>
+  <!-- Модалка для создания чата -->
+  <div class="modal" id="modal" style="display:none;">
+    <div class="modal-window">
+      <button class="modal-close" id="closeModal">&times;</button>
+      <svg class="modal-owl" viewBox="0 0 66 66" fill="none">
+        <circle cx="33" cy="33" r="30" fill="#21a042"/>
+        <ellipse cx="24" cy="27" rx="7" ry="8" fill="#171818"/>
+        <ellipse cx="42" cy="27" rx="7" ry="8" fill="#171818"/>
+        <ellipse cx="33" cy="44" rx="3.1" ry="2.6" fill="#f19d38"/>
+        <!-- Лупа -->
+        <circle cx="50" cy="44" r="6" fill="#fff" stroke="#21a042" stroke-width="1.5"/>
+        <circle cx="50" cy="44" r="3" fill="#b4d9b6"/>
+        <rect x="54" y="48" width="8" height="2.2" rx="1.1" fill="#b4d9b6" transform="rotate(33 54 48)"/>
+      </svg>
+      <div class="modal-title">Создать чат</div>
+      <input id="contactInput" placeholder="Имя, ник или e-mail" autocomplete="off">
+      <button class="btn-create" id="createChatBtn">Создать чат</button>
+    </div>
+  </div>
+  <script>
+    // Owl Pattern (разброс по экрану)
+    function createOwlsPattern() {
+      const bg = document.getElementById('patternBg');
+      if (!bg) return;
+      bg.innerHTML = '';
+      let owls = [];
+      for(let i=0;i<24;i++){
+        let top = Math.random()*90 + 2;
+        let left = Math.random()*94 + 1;
+        let dur = 4 + Math.random()*7;
+        owls.push(`<svg class="pattern-owl" style="top:${top}vh;left:${left}vw;animation-duration:${dur}s">
+          <circle cx="24" cy="24" r="22" fill="#21a042"/>
+          <ellipse cx="16" cy="18" rx="4.5" ry="5" fill="#171818"/>
+          <ellipse cx="28" cy="18" rx="4.5" ry="5" fill="#171818"/>
+          <ellipse cx="22" cy="32" rx="2.2" ry="1.6" fill="#f19d38"/>
+        </svg>`);
+      }
+      bg.innerHTML = owls.join('');
+    }
+    window.addEventListener('resize', createOwlsPattern);
+    window.addEventListener('DOMContentLoaded', createOwlsPattern);
+
+    // Модалка "Создать чат"
+    const modal = document.getElementById('modal');
+    const newChatBtn = document.getElementById('newChatBtn');
+    const closeModalBtn = document.getElementById('closeModal');
+    newChatBtn.onclick = () => { modal.style.display = 'flex'; };
+    closeModalBtn.onclick = () => { modal.style.display = 'none'; };
+    window.addEventListener('keydown', e=>{
+      if(e.key==='Escape') modal.style.display='none';
+    });
+    // Пример "создания" чата
+    document.getElementById('createChatBtn').onclick = () => {
+      const val = document.getElementById('contactInput').value.trim();
+      if(val){
+        alert("В будущем тут будет создание чата с: "+val);
+        modal.style.display = 'none';
+        document.getElementById('contactInput').value = '';
+      }
+    };
+    // Logout
+    document.getElementById('logoutBtn').onclick = () => {
+      alert("Выход из аккаунта");
+      // window.location.href = 'index.html'; // если надо редирект
+    };
+  </script>
+</body>
+</html>
