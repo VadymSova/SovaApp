@@ -1,91 +1,110 @@
 body {
-  background: #FAFBFC;
-  font-family: 'Inter', Arial, sans-serif;
   margin: 0;
+  padding: 0;
+  background: radial-gradient(circle, #f7faf7 60%, #ddebe0 100%);
+  font-family: 'Segoe UI', Arial, sans-serif;
   min-height: 100vh;
 }
 
 .main-container {
-  max-width: 380px;
-  margin: 60px auto;
-  background: #fff;
-  border-radius: 22px;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.10);
-  padding: 36px 32px 32px 32px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 28px;
+  margin-bottom: 25px;
 }
 
-.logo {
-  width: 96px;
-  height: 96px;
-  margin-bottom: 10px;
+.logo-anim {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .logo-title {
-  font-size: 2.2em;
-  font-weight: 700;
-  color: #27323a;
-  margin-bottom: 2px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #222;
+  margin-top: 6px;
+  letter-spacing: 1px;
+}
+
+#owl {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.8);
+  transition: all 1.2s cubic-bezier(.46,.03,.52,.96);
+}
+#owl.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Оформление формы */
+.auth-container {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 28px #a9c4b638;
+  padding: 36px 30px 28px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 340px;
 }
 
 .auth-container h1 {
-  font-size: 1.6em;
-  font-weight: 700;
-  margin-bottom: 22px;
-  color: #1d2327;
-  text-align: center;
+  margin: 0 0 22px 0;
+  font-size: 32px;
+  color: #232d21;
 }
 
-input {
-  display: block;
+input[type="text"], input[type="password"] {
   width: 100%;
-  margin: 9px 0;
-  padding: 12px 13px;
-  border-radius: 10px;
-  border: 1.5px solid #e2e5e8;
-  font-size: 1em;
-  background: #f6f7f9;
-  transition: border 0.18s;
-}
-input:focus {
+  padding: 11px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #b3dbc2;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #f3f8f5;
   outline: none;
-  border-color: #4FC37F;
+  transition: border .2s;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+  border: 1.5px solid #20a042;
+  background: #e5f5ea;
 }
 
 button {
   width: 100%;
   padding: 13px 0;
-  background: #4FC37F;
-  color: #fff;
   border: none;
-  border-radius: 10px;
-  font-size: 1em;
-  font-weight: 600;
-  margin-top: 18px;
+  background: #20a042;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.19s;
+  margin-bottom: 13px;
+  font-weight: 600;
+  transition: background .18s;
 }
 button:hover {
-  background: #36935a;
+  background: #158031;
 }
 
 .register-link {
-  margin-top: 17px;
-  text-align: center;
-  font-size: 1em;
-  color: #878e96;
+  margin-top: 6px;
+  font-size: 15px;
+  color: #7e9183;
 }
 .register-link a {
-  color: #4FC37F;
-  font-weight: 600;
+  color: #20a042;
   text-decoration: none;
-  margin-left: 6px;
+  font-weight: 500;
 }
 .register-link a:hover {
   text-decoration: underline;
