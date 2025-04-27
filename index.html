@@ -5,61 +5,76 @@
   <title>SovaApp</title>
   <meta name="viewport" content="width=400">
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="logo.png">
-  <style>
-    .auth-container input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      box-sizing: border-box;
-      margin-bottom: 10px;
-    }
-    .auth-container input::placeholder {
-      color: #7a7a7a;
-      font-style: italic;
-    }
-    .auth-container button {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-  </style>
 </head>
 <body>
   <div class="main-container">
     <header class="header">
-      <img src="logo.png" alt="SovaApp Logo" class="logo">
-      <span class="logo-title">SovaApp</span>
+      <div class="logo-anim">
+        <svg id="owl" width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" fill="#20A042" />
+          <ellipse id="eye" cx="39" cy="25" rx="7" ry="7" fill="#121212"/>
+          <ellipse id="eyelid" cx="39" cy="25" rx="7" ry="7" fill="#20A042" opacity="0"/>
+          <ellipse cx="18" cy="32" rx="5" ry="8" fill="#158031"/>
+          <ellipse cx="41" cy="44" rx="10" ry="5" fill="#158031"/>
+          <ellipse cx="46" cy="29" rx="4" ry="3" fill="#FF6B21"/>
+        </svg>
+        <span class="logo-title">SovaApp</span>
+      </div>
     </header>
-    <div class="auth-container">
+
+    <!-- Login Form -->
+    <div id="login-form" class="auth-container active">
       <h1>Sign in</h1>
-      <input type="email" placeholder="Email">
+      <input type="text" placeholder="Username">
       <input type="password" placeholder="Password">
       <button>Sign in</button>
       <div class="register-link">
         <span>Don't have an account?</span>
-        <a href="#">Create account</a>
+        <a href="#" id="show-register">Create account</a>
       </div>
     </div>
+
+    <!-- Registration Form -->
+    <div id="register-form" class="auth-container" style="display:none;">
+      <h1>Create Account</h1>
+      <input type="text" placeholder="New username">
+      <input type="password" placeholder="New password">
+      <button>Register</button>
+      <div class="register-link">
+        <a href="#" id="show-login">Back to Login</a>
+      </div>
+    </div>
+
   </div>
-  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAgt0bNqNUA0-MJAzDhD4UZeS-LM17qGRc",
-      authDomain: "sovaapp-a1279.firebaseapp.com",
-      projectId: "sovaapp-a1279",
-      storageBucket: "sovaapp-a1279.appspot.com",
-      messagingSenderId: "713397099090",
-      appId: "1:713397099090:web:7fdba1780a15c5974dfb",
-      measurementId: "G-8BDL7DZQSL"
+    // Анимация появления совы и моргание
+    window.onload = function() {
+      setTimeout(() => {
+        document.getElementById('owl').classList.add('visible');
+        setTimeout(() => {
+          const eyelid = document.getElementById('eyelid');
+          eyelid.style.transition = "opacity 0.12s";
+          eyelid.style.opacity = 1;
+          setTimeout(() => {
+            eyelid.style.opacity = 0;
+          }, 120);
+        }, 1400);
+      }, 300);
     };
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const auth = getAuth(app);
+
+    // Переключение между формами
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById('show-register').onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('register-form').style.display = 'flex';
+      };
+      document.getElementById('show-login').onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('register-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'flex';
+      };
+    });
   </script>
 </body>
 </html>
