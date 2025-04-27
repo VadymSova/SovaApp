@@ -5,6 +5,9 @@
   <title>SovaApp</title>
   <meta name="viewport" content="width=400">
   <link rel="stylesheet" href="styles.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 </head>
 <body>
   <div class="main-container">
@@ -25,9 +28,10 @@
     <!-- Login Form -->
     <div id="login-form" class="auth-container active">
       <h1>Sign in</h1>
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <button>Sign in</button>
+      <input id="login-email" type="email" placeholder="Email">
+      <input id="login-password" type="password" placeholder="Password">
+      <button id="login-btn">Sign in</button>
+      <div id="login-error" style="color: #c03; margin: 8px 0 0; min-height: 20px;"></div>
       <div class="register-link">
         <span>Don't have an account?</span>
         <a href="#" id="show-register">Create account</a>
@@ -37,15 +41,22 @@
     <!-- Registration Form -->
     <div id="register-form" class="auth-container" style="display:none;">
       <h1>Create Account</h1>
-      <input type="text" placeholder="New username">
-      <input type="password" placeholder="New password">
-      <button>Register</button>
+      <input id="register-email" type="email" placeholder="Email">
+      <input id="register-password" type="password" placeholder="Password">
+      <button id="register-btn">Register</button>
+      <div id="register-error" style="color: #c03; margin: 8px 0 0; min-height: 20px;"></div>
       <div class="register-link">
         <a href="#" id="show-login">Back to Login</a>
       </div>
     </div>
 
+    <!-- При успешном входе -->
+    <div id="success-container" class="auth-container" style="display:none; flex-direction: column; align-items:center; justify-content:center;">
+      <h1>Welcome to SovaApp!</h1>
+      <button id="logout-btn" style="margin-top: 16px;">Logout</button>
+    </div>
   </div>
+
   <script>
     // Анимация появления совы и моргание
     window.onload = function() {
@@ -73,6 +84,65 @@
         e.preventDefault();
         document.getElementById('register-form').style.display = 'none';
         document.getElementById('login-form').style.display = 'flex';
+      };
+    });
+
+    // --- Firebase config --- //
+    // ЗАМЕНИ на свои значения из Firebase!
+    const firebaseConfig = {
+      apiKey: "AIzaSyAytgObjNUAb-MJAzDhD4UZQs-LM17qGRc",
+      authDomain: "sovaapp-a1279.firebaseapp.com",
+      projectId: "sovaapp-a1279",
+      storageBucket: "sovaapp-a1279.appspot.com",
+      messagingSenderId: "713397099900",
+      appId: "1:713397099900:web:7dbab1780a15c5f947dfb",
+      measurementId: "G-8DDL7DZQSL"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // --- Логика логина и регистрации --- //
+    document.addEventListener("DOMContentLoaded", function() {
+      const auth = firebase.auth();
+
+      // Регистрация
+      document.getElementById('register-btn').onclick = function() {
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        document.getElementById('register-error').innerText = '';
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            document.getElementById('register-error').innerText = "Registration successful! Please login.";
+            setTimeout(() => {
+              document.getElementById('register-form').style.display = 'none';
+              document.getElementById('login-form').style.display = 'flex';
+            }, 1000);
+          })
+          .catch(error => {
+            document.getElementById('register-error').innerText = error.message;
+          });
+      };
+
+      // Вход
+      document.getElementById('login-btn').onclick = function() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        document.getElementById('login-error').innerText = '';
+        auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('success-container').style.display = 'flex';
+          })
+          .catch(error => {
+            document.getElementById('login-error').innerText = error.message;
+          });
+      };
+
+      // Logout
+      document.getElementById('logout-btn').onclick = function() {
+        auth.signOut().then(() => {
+          document.getElementById('success-container').style.display = 'none';
+          document.getElementById('login-form').style.display = 'flex';
+        });
       };
     });
   </script>
