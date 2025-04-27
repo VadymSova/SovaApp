@@ -21,20 +21,34 @@
         <span class="logo-title">SovaApp</span>
       </div>
     </header>
-    <div class="auth-container">
+
+    <!-- Login Form -->
+    <div id="login-form" class="auth-container active">
       <h1>Sign in</h1>
       <input type="text" placeholder="Username">
       <input type="password" placeholder="Password">
       <button>Sign in</button>
       <div class="register-link">
         <span>Don't have an account?</span>
-        <a href="#">Create account</a>
+        <a href="#" id="show-register">Create account</a>
       </div>
     </div>
+
+    <!-- Registration Form -->
+    <div id="register-form" class="auth-container" style="display:none;">
+      <h1>Create Account</h1>
+      <input type="text" placeholder="New username">
+      <input type="password" placeholder="New password">
+      <button>Register</button>
+      <div class="register-link">
+        <a href="#" id="show-login">Back to Login</a>
+      </div>
+    </div>
+
   </div>
   <script>
+    // Анимация появления совы и моргание
     window.onload = function() {
-      // Анимация появления совы
       setTimeout(() => {
         document.getElementById('owl').classList.add('visible');
         setTimeout(() => {
@@ -47,6 +61,20 @@
         }, 1400);
       }, 300);
     };
+
+    // Переключение между формами
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById('show-register').onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('register-form').style.display = 'flex';
+      };
+      document.getElementById('show-login').onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('register-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'flex';
+      };
+    });
   </script>
 </body>
 </html>
