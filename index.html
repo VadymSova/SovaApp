@@ -5,146 +5,61 @@
   <title>SovaApp</title>
   <meta name="viewport" content="width=400">
   <link rel="stylesheet" href="styles.css">
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <link rel="icon" href="logo.png">
+  <style>
+    .auth-container input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    .auth-container input::placeholder {
+      color: #7a7a7a;
+      font-style: italic;
+    }
+    .auth-container button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
   <div class="main-container">
     <header class="header">
-      <div class="logo-anim">
-        <svg id="owl" width="60" height="60" viewBox="0 0 60 60" fill="none">
-          <circle cx="30" cy="30" r="28" fill="#20A042" />
-          <ellipse id="eye" cx="39" cy="25" rx="7" ry="7" fill="#121212"/>
-          <ellipse id="eyelid" cx="39" cy="25" rx="7" ry="7" fill="#20A042" opacity="0"/>
-          <ellipse cx="18" cy="32" rx="5" ry="8" fill="#158031"/>
-          <ellipse cx="41" cy="44" rx="10" ry="5" fill="#158031"/>
-          <ellipse cx="46" cy="29" rx="4" ry="3" fill="#FF6B21"/>
-        </svg>
-        <span class="logo-title">SovaApp</span>
-      </div>
+      <img src="logo.png" alt="SovaApp Logo" class="logo">
+      <span class="logo-title">SovaApp</span>
     </header>
-
-    <!-- Login Form -->
-    <div id="login-form" class="auth-container active">
+    <div class="auth-container">
       <h1>Sign in</h1>
-      <input id="login-email" type="email" placeholder="Email">
-      <input id="login-password" type="password" placeholder="Password">
-      <button id="login-btn">Sign in</button>
-      <div id="login-error" style="color: #c03; margin: 8px 0 0; min-height: 20px;"></div>
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <button>Sign in</button>
       <div class="register-link">
         <span>Don't have an account?</span>
-        <a href="#" id="show-register">Create account</a>
+        <a href="#">Create account</a>
       </div>
-    </div>
-
-    <!-- Registration Form -->
-    <div id="register-form" class="auth-container" style="display:none;">
-      <h1>Create Account</h1>
-      <input id="register-email" type="email" placeholder="Email">
-      <input id="register-password" type="password" placeholder="Password">
-      <button id="register-btn">Register</button>
-      <div id="register-error" style="color: #c03; margin: 8px 0 0; min-height: 20px;"></div>
-      <div class="register-link">
-        <a href="#" id="show-login">Back to Login</a>
-      </div>
-    </div>
-
-    <!-- При успешном входе -->
-    <div id="success-container" class="auth-container" style="display:none; flex-direction: column; align-items:center; justify-content:center;">
-      <h1>Welcome to SovaApp!</h1>
-      <button id="logout-btn" style="margin-top: 16px;">Logout</button>
     </div>
   </div>
-
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js"></script>
   <script>
-    // Анимация появления совы и моргание
-    window.onload = function() {
-      setTimeout(() => {
-        document.getElementById('owl').classList.add('visible');
-        setTimeout(() => {
-          const eyelid = document.getElementById('eyelid');
-          eyelid.style.transition = "opacity 0.12s";
-          eyelid.style.opacity = 1;
-          setTimeout(() => {
-            eyelid.style.opacity = 0;
-          }, 120);
-        }, 1400);
-      }, 300);
-    };
-
-    // Переключение между формами
-    document.addEventListener("DOMContentLoaded", function() {
-      document.getElementById('show-register').onclick = function(e) {
-        e.preventDefault();
-        document.getElementById('login-form').style.display = 'none';
-        document.getElementById('register-form').style.display = 'flex';
-      };
-      document.getElementById('show-login').onclick = function(e) {
-        e.preventDefault();
-        document.getElementById('register-form').style.display = 'none';
-        document.getElementById('login-form').style.display = 'flex';
-      };
-    });
-
-    // --- Firebase config --- //
-    // ЗАМЕНИ на свои значения из Firebase!
     const firebaseConfig = {
-      apiKey: "AIzaSyAytgObjNUAb-MJAzDhD4UZQs-LM17qGRc",
+      apiKey: "AIzaSyAgt0bNqNUA0-MJAzDhD4UZeS-LM17qGRc",
       authDomain: "sovaapp-a1279.firebaseapp.com",
       projectId: "sovaapp-a1279",
       storageBucket: "sovaapp-a1279.appspot.com",
-      messagingSenderId: "713397099900",
-      appId: "1:713397099900:web:7dbab1780a15c5f947dfb",
-      measurementId: "G-8DDL7DZQSL"
+      messagingSenderId: "713397099090",
+      appId: "1:713397099090:web:7fdba1780a15c5974dfb",
+      measurementId: "G-8BDL7DZQSL"
     };
-    firebase.initializeApp(firebaseConfig);
-
-    // --- Логика логина и регистрации --- //
-    document.addEventListener("DOMContentLoaded", function() {
-      const auth = firebase.auth();
-
-      // Регистрация
-      document.getElementById('register-btn').onclick = function() {
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-        document.getElementById('register-error').innerText = '';
-        auth.createUserWithEmailAndPassword(email, password)
-          .then(() => {
-            document.getElementById('register-error').innerText = "Registration successful! Please login.";
-            setTimeout(() => {
-              document.getElementById('register-form').style.display = 'none';
-              document.getElementById('login-form').style.display = 'flex';
-            }, 1000);
-          })
-          .catch(error => {
-            document.getElementById('register-error').innerText = error.message;
-          });
-      };
-
-      // Вход
-      document.getElementById('login-btn').onclick = function() {
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-        document.getElementById('login-error').innerText = '';
-        auth.signInWithEmailAndPassword(email, password)
-          .then(() => {
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('success-container').style.display = 'flex';
-          })
-          .catch(error => {
-            document.getElementById('login-error').innerText = error.message;
-          });
-      };
-
-      // Logout
-      document.getElementById('logout-btn').onclick = function() {
-        auth.signOut().then(() => {
-          document.getElementById('success-container').style.display = 'none';
-          document.getElementById('login-form').style.display = 'flex';
-        });
-      };
-    });
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
   </script>
 </body>
 </html>
