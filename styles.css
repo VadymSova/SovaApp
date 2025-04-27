@@ -78,7 +78,21 @@ input[type="text"]:focus, input[type="password"]:focus {
   border: 1.5px solid #20a042;
   background: #e5f5ea;
 }
-
+input[type="email"] {
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #b3dbc2;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #f3f8f5;
+  outline: none;
+  transition: border .2s;
+}
+input[type="email"]:focus {
+  border: 1.5px solid #20a042;
+  background: #e5f5ea;
+}
 button {
   width: 100%;
   padding: 13px 0;
