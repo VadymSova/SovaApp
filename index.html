@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SovaApp</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Страница регистрации -->
+        <div id="register" class="page active">
+            <div class="logo">
+                <img src="logo.png" alt="SovaApp Logo">
+            </div>
+            <h2>SovaApp Registration</h2>
+            <form id="register-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+
+        <!-- Страница входа -->
+        <div id="login" class="page">
+            <h2>Login to SovaApp</h2>
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Username" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Главная страница чатов -->
+        <div id="chat-list" class="page">
+            <h2>Chats</h2>
+            <div id="chats"></div>
+            <button id="create-chat">Create Chat</button>
+        </div>
+
+        <!-- Страница чата -->
+        <div id="chat" class="page">
+            <h2>Chat</h2>
+            <div id="messages"></div>
+            <input type="text" id="message" placeholder="Type a message">
+            <button id="send-message">Send</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
