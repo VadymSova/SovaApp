@@ -65,4 +65,183 @@
         <svg id="owl" width="60" height="60" viewBox="0 0 60 60" fill="none">
           <circle cx="30" cy="30" r="28" fill="#20A042" />
           <ellipse id="eye" cx="39" cy="25" rx="7" ry="7" fill="#121212"/>
-          <ellipse id="eyelid" cx="39" cy="25" rx="7" ry="7" fill="#20
+          <ellipse id="eyelid" cx="39" cy="25" rx="7" ry="7" fill="#20A042" opacity="0"/>
+          <ellipse cx="18" cy="32" rx="5" ry="8" fill="#158031"/>
+          <ellipse cx="41" cy="44" rx="10" ry="5" fill="#158031"/>
+          <ellipse cx="46" cy="29" rx="4" ry="3" fill="#FF6B21"/>
+        </svg>
+        <span class="logo-title">SovaApp</span>
+      </div>
+    </header>
+
+    <!-- Login Form -->
+    <div id="login-form" class="auth-container active">
+      <h1>Sign in</h1>
+      <input id="login-email" type="email" placeholder="Email">
+      <input id="login-password" type="password" placeholder="Password">
+      <button id="login-btn">Sign in</button>
+      <div id="login-error" style="color: #c03; min-height: 18px; font-size: 15px;"></div>
+      <div class="register-link">
+        <span>Don't have an account?</span>
+        <a href="#" id="show-register">Create account</a>
+      </div>
+    </div>
+
+    <!-- Registration Form -->
+    <div id="register-form" class="auth-container" style="display:none;">
+      <h1>Create Account</h1>
+      <input id="register-email" type="email" placeholder="Email">
+      <input id="register-password" type="password" placeholder="Password">
+      <button id="register-btn">Register</button>
+      <div id="register-error" style="color: #c03; min-height: 18px; font-size: 15px;"></div>
+      <div class="register-link">
+        <a href="#" id="show-login">Back to Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loader Modal (ANIMATION) -->
+  <div id="loader-modal">
+    <div class="skate-owl-anim">
+      <svg class="skate-owl-svg" viewBox="0 0 120 70" fill="none">
+        <g>
+          <!-- Скейтборд -->
+          <rect x="42" y="52" rx="8" width="36" height="11" fill="#262626"/>
+          <ellipse cx="52" cy="64" rx="5" ry="4" fill="#909090"/>
+          <ellipse cx="68" cy="64" rx="5" ry="4" fill="#909090"/>
+          <ellipse cx="52" cy="64" rx="2.5" ry="2" fill="#2e2e2e"/>
+          <ellipse cx="68" cy="64" rx="2.5" ry="2" fill="#2e2e2e"/>
+          <!-- Сова -->
+          <ellipse cx="60" cy="38" rx="25" ry="22" fill="#20A042"/>
+          <ellipse cx="78" cy="32" rx="11" ry="13" fill="#158031"/>
+          <ellipse cx="75" cy="41" rx="15" ry="9" fill="#158031"/>
+          <ellipse cx="90" cy="40" rx="6.2" ry="4.6" fill="#FF6B21"/>
+          <!-- Глаз -->
+          <ellipse cx="74" cy="26.5" rx="8" ry="8.1" fill="#141614"/>
+          <!-- Клюв -->
+          <ellipse cx="88" cy="41.5" rx="4.4" ry="3.1" fill="#ff8134"/>
+          <!-- Мигающий глаз -->
+          <ellipse id="owl-eye-loader" cx="74" cy="26.5" rx="8" ry="8.1" fill="#20A042" opacity="0"/>
+        </g>
+      </svg>
+      <div class="skate-owl-title">Welcome! Loading chats...</div>
+    </div>
+  </div>
+
+  <script>
+    // Анимация совы (шапка) — мигает
+    window.onload = function() {
+      setTimeout(() => {
+        document.getElementById('owl').classList.add('visible');
+        setTimeout(() => {
+          const eyelid = document.getElementById('eyelid');
+          eyelid.style.transition = "opacity 0.12s";
+          eyelid.style.opacity = 1;
+          setTimeout(() => {
+            eyelid.style.opacity = 0;
+          }, 120);
+        }, 1400);
+      }, 300);
+    };
+
+    // Переключение форм
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById('show-register').onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('register-form').style.display = 'flex';
+      };
+      document.getElementById('show-login').onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('register-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'flex';
+      };
+    });
+
+    // Loader: мигание совы в анимации
+    function animateOwlEye() {
+      const loaderEye = document.getElementById('owl-eye-loader');
+      if (!loaderEye) return;
+      loaderEye.style.transition = "opacity 0.14s";
+      loaderEye.style.opacity = 1;
+      setTimeout(() => {
+        loaderEye.style.opacity = 0;
+      }, 180);
+    }
+  </script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script>
+    // Твой firebaseConfig:
+    const firebaseConfig = {
+      apiKey: "AIzaSyAgtQbNUA0-MJjAzDhD4UZ0s-LlW17qGRc",
+      authDomain: "sovaapp-a1279.firebaseapp.com",
+      projectId: "sovaapp-a1279",
+      storageBucket: "sovaapp-a1279.firebasestorage.app",
+      messagingSenderId: "711339709090",
+      appId: "1:711339709090:web:7fdba17080a15c5f947dfb",
+      measurementId: "G-8D0L7DZQSL"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const auth = firebase.auth();
+
+      // Регистрация
+      document.getElementById('register-btn').onclick = function() {
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        document.getElementById('register-error').innerText = '';
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            document.getElementById('register-error').style.color = '#219653';
+            document.getElementById('register-error').innerText = "Registration successful! Please login.";
+            setTimeout(() => {
+              document.getElementById('register-form').style.display = 'none';
+              document.getElementById('login-form').style.display = 'flex';
+              document.getElementById('register-error').style.color = '#c03';
+            }, 1200);
+          })
+          .catch(error => {
+            document.getElementById('register-error').innerText = error.message;
+          });
+      };
+
+      // Вход (Sign In)
+      document.getElementById('login-btn').onclick = function() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        document.getElementById('login-error').innerText = '';
+        auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            document.getElementById('login-error').style.color = '#219653';
+            document.getElementById('login-error').innerText = "Login successful!";
+            // Показываем loader
+            setTimeout(() => {
+              document.getElementById('login-form').style.display = 'none';
+              showLoaderAndRedirect();
+              document.getElementById('login-error').innerText = '';
+              document.getElementById('login-error').style.color = '#c03';
+            }, 800);
+          })
+          .catch(error => {
+            document.getElementById('login-error').innerText = error.message;
+          });
+      };
+    });
+
+    // ---- Loader and redirect logic ----
+    function showLoaderAndRedirect() {
+      const loader = document.getElementById('loader-modal');
+      loader.classList.add('active');
+      // "Мигание" глазом через 800мс
+      setTimeout(() => animateOwlEye(), 800);
+      // Через 2.1 сек переход на чаты
+      setTimeout(() => {
+        window.location.href = "chats.html";
+      }, 2100);
+    }
+  </script>
+</body>
+</html>
