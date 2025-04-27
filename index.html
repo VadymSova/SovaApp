@@ -25,9 +25,10 @@
     <!-- Login Form -->
     <div id="login-form" class="auth-container active">
       <h1>Sign in</h1>
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <button>Sign in</button>
+      <input id="login-email" type="email" placeholder="Email">
+      <input id="login-password" type="password" placeholder="Password">
+      <button id="login-btn">Sign in</button>
+      <div id="login-error" style="color: #c03; min-height: 18px; font-size: 15px;"></div>
       <div class="register-link">
         <span>Don't have an account?</span>
         <a href="#" id="show-register">Create account</a>
@@ -37,15 +38,16 @@
     <!-- Registration Form -->
     <div id="register-form" class="auth-container" style="display:none;">
       <h1>Create Account</h1>
-      <input type="text" placeholder="New username">
-      <input type="password" placeholder="New password">
-      <button>Register</button>
+      <input id="register-email" type="email" placeholder="Email">
+      <input id="register-password" type="password" placeholder="Password">
+      <button id="register-btn">Register</button>
+      <div id="register-error" style="color: #c03; min-height: 18px; font-size: 15px;"></div>
       <div class="register-link">
         <a href="#" id="show-login">Back to Login</a>
       </div>
     </div>
-
   </div>
+
   <script>
     // Анимация появления совы и моргание
     window.onload = function() {
@@ -73,6 +75,66 @@
         e.preventDefault();
         document.getElementById('register-form').style.display = 'none';
         document.getElementById('login-form').style.display = 'flex';
+      };
+    });
+  </script>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script>
+    // Твой firebaseConfig:
+    const firebaseConfig = {
+      apiKey: "AIzaSyAgtQbNUA0-MJjAzDhD4UZ0s-LlW17qGRc",
+      authDomain: "sovaapp-a1279.firebaseapp.com",
+      projectId: "sovaapp-a1279",
+      storageBucket: "sovaapp-a1279.firebasestorage.app",
+      messagingSenderId: "711339709090",
+      appId: "1:711339709090:web:7fdba17080a15c5f947dfb",
+      measurementId: "G-8D0L7DZQSL"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const auth = firebase.auth();
+
+      // Регистрация
+      document.getElementById('register-btn').onclick = function() {
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        document.getElementById('register-error').innerText = '';
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            document.getElementById('register-error').style.color = '#219653';
+            document.getElementById('register-error').innerText = "Registration successful! Please login.";
+            setTimeout(() => {
+              document.getElementById('register-form').style.display = 'none';
+              document.getElementById('login-form').style.display = 'flex';
+              document.getElementById('register-error').style.color = '#c03';
+            }, 1200);
+          })
+          .catch(error => {
+            document.getElementById('register-error').innerText = error.message;
+          });
+      };
+
+      // Вход
+      document.getElementById('login-btn').onclick = function() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        document.getElementById('login-error').innerText = '';
+        auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            document.getElementById('login-error').style.color = '#219653';
+            document.getElementById('login-error').innerText = "Login successful!";
+            setTimeout(() => {
+              document.getElementById('login-error').innerText = '';
+              document.getElementById('login-error').style.color = '#c03';
+            }, 1200);
+          })
+          .catch(error => {
+            document.getElementById('login-error').innerText = error.message;
+          });
       };
     });
   </script>
