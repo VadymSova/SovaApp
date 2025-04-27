@@ -13,16 +13,50 @@
       <img src="logo.png" alt="SovaApp Logo" class="logo">
       <span class="logo-title">SovaApp</span>
     </header>
-    <div class="auth-container">
+    
+    <!-- Login Form -->
+    <div id="login-form" class="auth-container">
       <h1>Sign in</h1>
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <button>Sign in</button>
+      <input type="text" placeholder="Username" id="login-username">
+      <input type="password" placeholder="Password" id="login-password">
+      <button id="login-btn">Sign in</button>
       <div class="register-link">
         <span>Don't have an account?</span>
-        <a href="#">Create account</a>
+        <a href="#" id="show-register">Create account</a>
       </div>
     </div>
+    
+    <!-- Registration Form -->
+    <div id="register-form" class="auth-container" style="display: none;">
+      <h1>Create Account</h1>
+      <input type="text" placeholder="New username" id="register-username">
+      <input type="password" placeholder="New password" id="register-password">
+      <button id="register-btn">Register</button>
+      <div class="register-link">
+        <a href="#" id="show-login">Back to Login</a>
+      </div>
+    </div>
+    
   </div>
+  
+  <!-- JS - вставь этот кусок ПЕРЕД закрывающим тегом </body> -->
+  <script>
+    // Показать форму регистрации
+    document.getElementById('show-register').onclick = function(e) {
+      e.preventDefault();
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('register-form').style.display = 'block';
+    };
+    // Показать форму логина
+    document.getElementById('show-login').onclick = function(e) {
+      e.preventDefault();
+      document.getElementById('register-form').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
+    };
+    // Пример для кнопки регистрации
+    document.getElementById('register-btn').onclick = function() {
+      alert('Регистрация сработала! Тут будет отправка данных.');
+    };
+  </script>
 </body>
 </html>
