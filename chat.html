@@ -3,401 +3,303 @@
 <head>
   <meta charset="UTF-8">
   <title>SovaApp — Чаты</title>
-  <meta name="viewport" content="width=1024">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      background: #f7faf7;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      display: flex;
+      margin: 0; font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f5f7f7; min-height: 100vh; overflow: hidden;
+    }
+    .bg-pattern {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 60 60' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='24' fill='%2320A042'/%3E%3Cellipse cx='37' cy='27' rx='6' ry='6' fill='%23121212'/%3E%3Cellipse cx='21' cy='31' rx='4.5' ry='7' fill='%23158031'/%3E%3Cellipse cx='40' cy='43' rx='8.5' ry='4.5' fill='%23158031'/%3E%3Cellipse cx='44' cy='31' rx='3' ry='2.5' fill='%23FF6B21'/%3E%3C/svg%3E");
+      background-size: 140px 140px; opacity: 0.14;
+      animation: bgMove 15s linear infinite alternate;
+    }
+    @keyframes bgMove {
+      0% {background-position: 0 0;}
+      100% {background-position: 60px 90px;}
+    }
+    .container {
+      display: flex; height: 100vh; position: relative; z-index: 1;
     }
     .sidebar {
-      width: 290px;
-      background: #f7faf7;
-      border-right: 1.5px solid #e5efeb;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding: 0 0 12px 0;
-      min-height: 100vh;
-    }
-    .sidebar-header {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 23px 23px 8px 23px;
-    }
-    .logo-sova {
-      width: 46px;
-      height: 46px;
-    }
-    .app-title {
-      font-size: 26px;
-      color: #212d21;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-    .btn-new-chat {
-      margin: 16px 18px 16px 18px;
-      background: #20a042;
-      border-radius: 9px;
-      border: none;
-      color: #fff;
-      font-size: 19px;
-      font-weight: 600;
-      padding: 13px 0;
-      width: calc(100% - 36px);
-      cursor: pointer;
-      box-shadow: 0 2px 6px #b3e0b36b;
-      transition: background 0.14s;
-    }
-    .btn-new-chat:hover {
-      background: #158031;
-    }
-    .chat-list {
-      flex: 1 1 auto;
-      overflow-y: auto;
-      padding: 0 0 0 0;
-    }
-    .chat-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 20px;
-      cursor: pointer;
-      border-bottom: 1px solid #f0f3f1;
-      background: transparent;
-      transition: background 0.15s;
-    }
-    .chat-item:hover {
-      background: #e7f6eb;
-    }
-    .chat-avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #20a042;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 22px;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
-    .chat-info {
-      flex: 1 1 auto;
-    }
-    .chat-title {
-      font-size: 17px;
-      color: #222;
-      font-weight: 600;
-    }
-    .chat-lastmsg {
-      font-size: 14px;
-      color: #7e9183;
-      margin-top: 2px;
-    }
-    .chat-time {
-      font-size: 14px;
-      color: #b7bfb5;
-      margin-left: 8px;
-    }
-    .logout-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 18px 0 18px;
-    }
-    .btn-logout {
-      width: 100%;
-      border: 2px solid #20a042;
-      background: none;
-      color: #20a042;
-      border-radius: 8px;
-      font-size: 17px;
-      padding: 10px 0;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.18s, color 0.18s;
-      margin-left: 0;
-    }
-    .btn-logout:hover {
-      background: #20a042;
-      color: #fff;
-    }
-    .main {
-      flex: 1 1 auto;
-      min-height: 100vh;
-      background: #f7faf7;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    /* Pattern Sova */
-    .pattern-bg {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      left: 0; top: 0;
-    }
-    .pattern-sova {
-      position: absolute;
-      width: 36px; height: 36px;
-      opacity: 0.16;
-      user-select: none;
-      pointer-events: none;
-    }
-    /* Welcome sova */
-    .welcome-sova {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .welcome-sova .sova-big {
-      width: 95px; height: 95px;
-      margin-bottom: 15px;
-    }
-    .welcome-title {
-      font-size: 24px;
-      color: #202b21;
-      font-weight: bold;
-      text-align: center;
-      margin-bottom: 9px;
-    }
-    .welcome-subtitle {
-      color: #768377;
-      font-size: 18px;
-      text-align: center;
-    }
-    /* Modal overlay */
-    .modal {
-      display: none;
-      position: fixed;
-      left: 0; top: 0; right: 0; bottom: 0;
-      background: rgba(243,248,245,0.97);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      animation: fadein .4s;
-    }
-    .modal.active { display: flex; }
-    @keyframes fadein {
-      from { opacity: 0;}
-      to { opacity: 1;}
-    }
-    /* Modal content */
-    .modal-content {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 6px 48px #a9c4b644;
-      padding: 34px 35px 28px 35px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 340px;
+      width: 320px; min-width: 260px; background: #fff;
+      border-right: 1.5px solid #e4ebe8;
+      display: flex; flex-direction: column;
+      box-shadow: 2px 0 16px #c3e2d933;
       position: relative;
       z-index: 2;
-      text-align: center;
     }
-    /* Sova + lupa (search) anim */
-    .search-owl-anim {
-      margin-bottom: 22px;
-      animation: popsearch .9s;
+    .logo-row {
+      display: flex; align-items: center; gap: 15px;
+      padding: 24px 0 10px 28px;
     }
-    @keyframes popsearch {
-      0% { transform: scale(.8) translateY(38px); opacity: 0;}
-      55% { transform: scale(1.14);}
-      100% { transform: scale(1) translateY(0); opacity: 1;}
+    .logo-img {
+      width: 38px; height: 38px;
     }
-    .search-owl-lupa {
-      position: absolute;
-      right: 12px; bottom: 10px;
-      width: 23px; height: 23px;
-      z-index: 3;
-      filter: drop-shadow(0 2px 2px #668e7b11);
-      animation: lupamove .85s;
+    .logo-title {
+      font-size: 27px; font-weight: 700; color: #222; letter-spacing: 1.2px;
     }
-    @keyframes lupamove {
-      0% { transform: scale(0.3) translateX(-28px);}
-      35% { transform: scale(1.13);}
-      100% { transform: scale(1) translateX(0);}
-    }
-    /* Form in modal */
-    .modal-content label {
-      font-size: 16px;
-      color: #222;
-      font-weight: 500;
-      margin-bottom: 9px;
-    }
-    .modal-content input {
-      padding: 12px 12px;
-      border-radius: 8px;
-      border: 1.3px solid #b3dbc2;
-      font-size: 17px;
-      width: 100%;
-      margin-bottom: 17px;
-      background: #f3f8f5;
-      transition: border .17s;
-    }
-    .modal-content input:focus {
-      border: 1.6px solid #20a042;
-      background: #e5f5ea;
+    .new-chat-btn {
+      margin: 18px 28px 13px 28px;
+      padding: 13px 0; width: calc(100% - 56px);
+      border-radius: 10px;
+      border: none;
+      background: #20a042;
+      color: #fff; font-size: 19px; font-weight: 600;
+      cursor: pointer; transition: background .18s;
+      box-shadow: 0 2px 12px #b3e0bd25;
       outline: none;
     }
-    .modal-content button {
-      padding: 13px 0;
-      width: 100%;
-      background: #20a042;
-      color: #fff;
-      border: none;
-      font-size: 18px;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-bottom: 10px;
-      transition: background .14s;
-    }
-    .modal-content button:hover {
-      background: #158031;
-    }
-    .modal-close {
-      position: absolute;
-      right: 16px; top: 10px;
+    .new-chat-btn:hover { background: #158031; }
+    .chat-list {
+      flex: 1; overflow-y: auto;
+      padding: 0 0 0 0; margin: 0;
       background: none;
-      border: none;
-      color: #888;
-      font-size: 28px;
-      cursor: pointer;
-      z-index: 4;
-      transition: color 0.14s;
     }
-    .modal-close:hover {
-      color: #c03;
+    .chat-item {
+      display: flex; align-items: center; padding: 14px 28px 14px 28px;
+      cursor: pointer; transition: background .13s;
+      border-bottom: 1px solid #eef3f0;
+      background: none;
+    }
+    .chat-item:hover, .chat-item.active { background: #e8f5ed; }
+    .avatar {
+      background: #20a042; color: #fff; font-weight: 600;
+      border-radius: 50%; width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-right: 16px;
+      box-shadow: 0 2px 6px #c3e2d936;
+    }
+    .chat-info { flex: 1; }
+    .chat-title { font-size: 18px; font-weight: 500; color: #232d21; }
+    .chat-preview { font-size: 14px; color: #809489; margin-top: 3px;}
+    .chat-time { font-size: 13px; color: #93b09e; min-width: 45px; text-align: right;}
+    .logout-row {
+      padding: 26px 24px 20px 24px;
+    }
+    .outline-btn {
+      width: 100%;
+      border: 2px solid #20a042; background: none; color: #207c42;
+      border-radius: 9px; padding: 12px 0; font-size: 17px; font-weight: 500;
+      cursor: pointer; transition: background .18s, color .18s;
+      margin-top: 10px;
+    }
+    .outline-btn:hover { background: #e5f5ea; }
+    /* Main */
+    .main {
+      flex: 1; position: relative; background: none;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+    }
+    .no-messages {
+      text-align: center; margin-top: 40px; z-index: 2;
+    }
+    .owl-wave { margin: 0 auto 20px auto; width: 84px; height: 84px; }
+    .no-messages-title { font-size: 25px; font-weight: 700; color: #232d21; }
+    .no-messages-sub { font-size: 16px; color: #668c7a; margin-top: 5px;}
+    /* Modal */
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.85); z-index: 3000;
+      align-items: center; justify-content: center;
+      transition: opacity .18s;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #fff; border-radius: 24px; box-shadow: 0 8px 32px #7bb88a35;
+      padding: 36px 42px 34px 42px; min-width: 340px; text-align: center;
+      position: relative; animation: modalShow .4s cubic-bezier(.68,-0.35,.36,1.34);
+    }
+    @keyframes modalShow { 0%{transform:scale(0.8); opacity:0;} 100%{transform:scale(1); opacity:1;} }
+    #close-modal {
+      position: absolute; top: 13px; right: 16px; font-size: 28px; background: none; border: none; color: #1c8242; cursor: pointer;
+    }
+    .owl-search-anim { margin-bottom: 15px; width: 66px; height: 66px; margin-left: auto; margin-right: auto;}
+    #contact-input {
+      width: 90%; padding: 13px 12px; margin: 22px 0 18px 0; border-radius: 9px;
+      border: 1.5px solid #b3dbc2; font-size: 16px; background: #f3f8f5; outline: none;
+      transition: border .2s;
+    }
+    #contact-input:focus {
+      border: 2px solid #20a042; background: #e5f5ea;
+    }
+    #create-chat-btn {
+      width: 100%; padding: 12px 0; border: none; background: #20a042;
+      color: #fff; font-size: 18px; border-radius: 8px; cursor: pointer; font-weight: 600;
+      transition: background .18s;
+    }
+    #create-chat-btn:hover { background: #158031; }
+    /* Анимации сов */
+    .svg-owl-blink #eyelid { animation: blink 2.8s infinite; }
+    @keyframes blink {
+      0%, 92% { opacity: 0; }
+      93%,96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .svg-owl-wave #wing {
+      transform-box: fill-box;
+      transform-origin: 85% 70%;
+      animation: wingwave 2.3s infinite;
+    }
+    @keyframes wingwave {
+      0%, 89% { transform: rotate(0deg);}
+      92% { transform: rotate(-19deg);}
+      97% { transform: rotate(0deg);}
+      100% { transform: rotate(0deg);}
+    }
+    .svg-owl-search #loupe {
+      transform-box: fill-box; transform-origin: 80% 55%;
+      animation: loupeMove 2s infinite;
+    }
+    @keyframes loupeMove {
+      0%, 84% { transform: rotate(-14deg);}
+      90% { transform: rotate(11deg);}
+      100% { transform: rotate(-14deg);}
+    }
+    @media (max-width: 760px) {
+      .sidebar { width: 100vw; min-width: 0; max-width: 100vw;}
+      .container { flex-direction: column; }
+      .main { min-height: 340px; }
+      .modal-content { min-width: 96vw; }
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <img class="logo-sova" src="logo.png" alt="SovaApp logo">
-      <span class="app-title">SovaApp</span>
-    </div>
-    <button class="btn-new-chat" id="new-chat-btn">+ Новый чат</button>
-    <div class="chat-list" id="chat-list">
-      <!-- Чаты появятся тут -->
-    </div>
-    <div class="logout-row">
-      <button class="btn-logout" id="logout-btn">Выйти</button>
-    </div>
-  </div>
-  <div class="main">
-    <!-- Паттерн -->
-    <div class="pattern-bg" id="pattern-bg"></div>
-    <!-- Приветствие -->
-    <div class="welcome-sova" id="welcome-area">
-      <img class="sova-big" src="logo.png" alt="Sova logo">
-      <div class="welcome-title">Нет сообщений</div>
-      <div class="welcome-subtitle">Поприветствуйте собеседника!</div>
-    </div>
-  </div>
-  <!-- Modal для нового чата -->
-  <div class="modal" id="modal-new-chat">
-    <div class="modal-content">
-      <button class="modal-close" id="close-modal">&times;</button>
-      <div style="position:relative;">
-        <img src="logo.png" class="search-owl-anim" width="68" height="68" alt="Sova search owl">
-        <svg class="search-owl-lupa" viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" fill="#158031"/><rect x="16" y="16" width="7" height="3" rx="1.2" fill="#20a042" transform="rotate(45 16 16)"/></svg>
+  <div class="bg-pattern"></div>
+  <div class="container">
+    <div class="sidebar">
+      <div class="logo-row">
+        <img src="logo.png" class="logo-img" alt="SovaApp">
+        <span class="logo-title">SovaApp</span>
       </div>
-      <label for="contact-input">Введите имя контакта или email</label>
-      <input id="contact-input" type="text" placeholder="Имя или e-mail">
+      <button class="new-chat-btn" id="new-chat-btn">+ Новый чат</button>
+      <div class="chat-list" id="chat-list">
+        <!-- чаты будут тут -->
+      </div>
+      <div class="logout-row">
+        <button id="logout-btn" class="outline-btn">Выйти</button>
+      </div>
+    </div>
+    <div class="main" id="main-panel">
+      <div class="no-messages" id="welcome-block">
+        <div class="owl-wave">
+          <!-- Сова машет крылом -->
+          <svg class="svg-owl-wave" viewBox="0 0 90 90" width="84" height="84">
+            <circle cx="45" cy="45" r="38" fill="#20A042"/>
+            <ellipse cx="63" cy="37" rx="10" ry="10" fill="#121212"/>
+            <ellipse cx="33" cy="52" rx="7" ry="12" fill="#158031"/>
+            <ellipse id="wing" cx="65" cy="65" rx="14" ry="8" fill="#158031"/>
+            <ellipse cx="71" cy="45" rx="6" ry="5" fill="#FF6B21"/>
+            <ellipse id="eyelid" cx="63" cy="37" rx="10" ry="10" fill="#20A042" opacity="0"/>
+          </svg>
+        </div>
+        <div class="no-messages-title">Нет сообщений</div>
+        <div class="no-messages-sub">Поприветствуйте собеседника!</div>
+      </div>
+    </div>
+  </div>
+  <!-- Модалка создания чата -->
+  <div id="new-chat-modal" class="modal">
+    <div class="modal-content">
+      <button id="close-modal">&times;</button>
+      <div class="owl-search-anim">
+        <!-- Сова с лупой -->
+        <svg class="svg-owl-search" viewBox="0 0 74 74" width="60" height="60">
+          <circle cx="37" cy="37" r="32" fill="#20A042"/>
+          <ellipse cx="52" cy="30" rx="8" ry="8" fill="#121212"/>
+          <ellipse cx="26" cy="40" rx="5" ry="9" fill="#158031"/>
+          <ellipse cx="55" cy="56" rx="10" ry="6" fill="#158031"/>
+          <ellipse cx="60" cy="36" rx="4" ry="3" fill="#FF6B21"/>
+          <ellipse id="eyelid" cx="52" cy="30" rx="8" ry="8" fill="#20A042" opacity="0"/>
+          <g id="loupe">
+            <circle cx="62" cy="52" r="6" fill="#fff" stroke="#217c39" stroke-width="2"/>
+            <rect x="67" y="57" width="3" height="10" rx="1.5" fill="#217c39" transform="rotate(40 68 62)" />
+          </g>
+        </svg>
+      </div>
+      <h2 style="margin-top:2px;">Создать чат</h2>
+      <input id="contact-input" type="text" placeholder="Имя, ник или e-mail">
       <button id="create-chat-btn">Создать чат</button>
     </div>
   </div>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script>
-    // Генерация паттерна из сов
-    function createPattern() {
-      const pattern = document.getElementById('pattern-bg');
-      pattern.innerHTML = '';
-      const n = 13;
-      for (let i = 0; i < n; i++) {
-        let s = document.createElement('img');
-        s.src = 'logo.png';
-        s.className = 'pattern-sova';
-        s.style.top = (Math.random()*75+8)+'%';
-        s.style.left = (Math.random()*92+2)+'%';
-        s.style.opacity = (Math.random()*0.14+0.11).toFixed(2);
-        s.style.transform = `scale(${Math.random()*0.65+0.5}) rotate(${Math.floor(Math.random()*350)}deg)`;
-        pattern.appendChild(s);
-      }
-    }
-    createPattern();
+    // Firebase config (замени на свой если надо)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAgtQbNUA0-MJjAzDhD4UZ0s-LlW17qGRc",
+      authDomain: "sovaapp-a1279.firebaseapp.com",
+      projectId: "sovaapp-a1279",
+      storageBucket: "sovaapp-a1279.firebasestorage.app",
+      messagingSenderId: "711339709090",
+      appId: "1:711339709090:web:7fdba17080a15c5f947dfb",
+      measurementId: "G-8D0L7DZQSL"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    // Примерная структура чатов (тестовые данные)
-    let chats = [
-      { name: "Low", lastMsg: "Нет сообщений", time: "" },
-      { name: "SovaTest", lastMsg: "Нет сообщений", time: "" }
-    ];
-    function renderChats() {
-      const list = document.getElementById('chat-list');
-      list.innerHTML = "";
-      chats.forEach(chat => {
-        let div = document.createElement('div');
-        div.className = "chat-item";
-        div.innerHTML = `<div class="chat-avatar">${chat.name[0].toUpperCase()}</div>
-          <div class="chat-info">
-            <div class="chat-title">${chat.name}</div>
-            <div class="chat-lastmsg">${chat.lastMsg}</div>
-          </div>
-          <div class="chat-time">${chat.time||""}</div>`;
-        list.appendChild(div);
-      });
-    }
-    renderChats();
-
-    // Кнопка "Выйти"
+    // ============ ЛОГИКА UI ============
+    // Логаут
     document.getElementById('logout-btn').onclick = () => {
-      window.location.href = 'index.html';
+      firebase.auth().signOut().then(()=>{ window.location.href = 'index.html'; });
     };
 
-    // Открыть/закрыть модал создания чата
+    // Модалка новый чат
     document.getElementById('new-chat-btn').onclick = () => {
-      document.getElementById('modal-new-chat').classList.add('active');
-      setTimeout(() => {
-        document.getElementById('contact-input').focus();
-      }, 250);
+      document.getElementById('new-chat-modal').classList.add('active');
+      setTimeout(()=>document.getElementById('contact-input').focus(),120);
     };
     document.getElementById('close-modal').onclick = () => {
-      document.getElementById('modal-new-chat').classList.remove('active');
+      document.getElementById('new-chat-modal').classList.remove('active');
       document.getElementById('contact-input').value = '';
     };
 
-    // Создать новый чат (анимация + добавление)
-    document.getElementById('create-chat-btn').onclick = () => {
-      const val = document.getElementById('contact-input').value.trim();
-      if (!val) return;
-      chats.unshift({ name: val, lastMsg: "Нет сообщений", time: (new Date()).toLocaleTimeString().slice(0,5) });
-      renderChats();
-      document.getElementById('modal-new-chat').classList.remove('active');
-      document.getElementById('contact-input').value = '';
-    };
+    // DEMO: Cписок чатов (заглушка)
+    const demoChats = [
+      {id:'1', name:'Low', last:'Нет сообщений'},
+      {id:'2', name:'SovaTest', last:'Нет сообщений'}
+    ];
+    function renderChats(list) {
+      const chatList = document.getElementById('chat-list');
+      chatList.innerHTML = '';
+      list.forEach(chat=>{
+        let item = document.createElement('div');
+        item.className = 'chat-item';
+        item.innerHTML = `
+          <div class="avatar">${chat.name[0].toUpperCase()}</div>
+          <div class="chat-info">
+            <div class="chat-title">${chat.name}</div>
+            <div class="chat-preview">${chat.last}</div>
+          </div>
+        `;
+        chatList.appendChild(item);
+      });
+    }
+    renderChats(demoChats);
 
-    // Фокус на Enter
-    document.getElementById('contact-input').addEventListener('keydown', function(e) {
-      if (e.key === "Enter") {
-        document.getElementById('create-chat-btn').click();
+    // Создание чата (DEMO)
+    document.getElementById('create-chat-btn').onclick = function() {
+      let name = document.getElementById('contact-input').value.trim();
+      if (!name) {
+        document.getElementById('contact-input').focus();
+        return;
       }
-    });
+      demoChats.push({id: (demoChats.length+1).toString(), name, last: 'Нет сообщений'});
+      renderChats(demoChats);
+      document.getElementById('new-chat-modal').classList.remove('active');
+      document.getElementById('contact-input').value = '';
+    };
+
+    // Убираем подписи у сов на фоне
+    // (SVG паттерн выше без текста)
+
+    // Приветственная анимация "нет сообщений" всегда показывается справа (можно будет потом заменить на реальный чат)
+    // Клик по чату сейчас не активен (заглушка).
+
+    // Сделай так, чтобы всё выглядело современно, ровно и удобно!
   </script>
 </body>
 </html>
