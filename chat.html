@@ -3,389 +3,397 @@
 <head>
   <meta charset="UTF-8">
   <title>SovaApp — Чаты</title>
-  <meta name="viewport" content="width=1000">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="styles.css">
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f6f8fa;
+      background: #f7faf8;
+      min-height: 100vh;
       overflow: hidden;
     }
-    .container {
+    .layout {
       display: flex;
       height: 100vh;
-      width: 100vw;
     }
     .sidebar {
-      width: 300px;
+      width: 310px;
       background: #fff;
-      border-right: 1.5px solid #e2e4e8;
-      padding: 0 0 16px 0;
+      box-shadow: 1px 0 12px #0001;
+      padding: 0 0 24px 0;
       display: flex;
       flex-direction: column;
-      z-index: 2;
+      position: relative;
     }
-    .sidebar-header {
+    .logo-row {
       display: flex;
       align-items: center;
-      height: 70px;
-      padding-left: 24px;
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      gap: 14px;
-      border-bottom: 1.5px solid #e2e4e8;
+      gap: 15px;
+      padding: 32px 0 28px 32px;
     }
-    .sidebar-header img {
-      height: 40px;
-      width: 40px;
+    .sova-logo {
+      width: 38px;
+      height: 38px;
+      display: block;
+    }
+    .brand {
+      font-size: 2.0rem;
+      font-weight: 600;
+      color: #223;
     }
     .new-chat-btn {
-      margin: 22px 16px 18px 16px;
-      padding: 0;
-      background: #25ad3b;
-      color: #fff;
-      font-size: 19px;
+      margin: 0 18px 28px 18px;
+      padding: 13px 0;
+      font-size: 1.2rem;
       font-weight: 500;
+      background: #21b745;
+      color: #fff;
       border: none;
-      border-radius: 9px;
-      height: 52px;
-      width: calc(100% - 32px);
+      border-radius: 10px;
       cursor: pointer;
-      transition: background .2s;
-      box-shadow: 0 2px 10px #206d2a15;
+      transition: background 0.18s;
+      box-shadow: 0 2px 8px #20a04215;
+      outline: none;
     }
     .new-chat-btn:hover {
-      background: #18872a;
+      background: #189e38;
     }
     .chats-list {
       flex: 1;
+      padding: 0 10px 0 12px;
       overflow-y: auto;
-      padding: 0 10px 0 10px;
     }
-    .chat-preview {
+    .chat-item {
+      background: #f3f7f5;
+      border-radius: 11px;
+      padding: 13px 18px 11px 15px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
-      padding: 13px 12px;
-      border-radius: 12px;
-      margin-bottom: 6px;
-      background: #f7faf7;
+      gap: 12px;
       cursor: pointer;
-      transition: background 0.18s;
-      border: 1.5px solid transparent;
+      border: 2px solid transparent;
+      transition: background .16s, border .18s;
+      min-height: 52px;
     }
-    .chat-preview.selected, .chat-preview:hover {
-      background: #e1fbe1;
-      border-color: #25ad3b60;
+    .chat-item.active, .chat-item:hover {
+      background: #e6f9e7;
+      border: 2px solid #21b74544;
     }
-    .chat-avatar {
-      background: #25ad3b;
-      color: #fff;
-      font-weight: bold;
-      width: 39px;
-      height: 39px;
+    .avatar {
+      width: 36px; height: 36px;
       border-radius: 50%;
+      background: #21b745;
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 14px;
-      font-size: 19px;
-      letter-spacing: 0.5px;
+      user-select: none;
+      box-shadow: 0 0 3px #20a04223;
+      flex-shrink: 0;
     }
-    .chat-details {
+    .chat-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
       flex: 1;
     }
     .chat-title {
-      font-weight: 600;
-      font-size: 17px;
-      color: #262626;
-    }
-    .chat-last {
-      font-size: 13px;
-      color: #768184;
-      margin-top: 2px;
-    }
-    .sidebar-footer {
-      margin: 25px 0 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 18px;
-    }
-    .logout-btn {
-      border: 2px solid #25ad3b;
-      color: #25ad3b;
-      background: #fff;
-      padding: 8px 28px;
-      border-radius: 9px;
-      font-size: 16px;
+      font-size: 1.06rem;
       font-weight: 500;
-      cursor: pointer;
-      transition: background .18s, color .18s;
+      color: #21212c;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       margin-bottom: 2px;
     }
-    .logout-btn:hover {
-      background: #25ad3b;
-      color: #fff;
+    .chat-last-msg {
+      color: #8ca18d;
+      font-size: 0.96rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .main-content {
+    .logout-btn {
+      margin: 22px 18px 0 18px;
+      padding: 12px 0;
+      font-size: 1.15rem;
+      color: #21b745;
+      background: #fff;
+      border: 2px solid #21b745;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background .12s, color .12s;
+      outline: none;
+      width: calc(100% - 36px);
+    }
+    .logout-btn:hover {
+      background: #e6f9e7;
+      color: #189e38;
+    }
+
+    /* Main area */
+    .main-area {
       flex: 1;
-      background: #f6f8fa;
       position: relative;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      min-width: 0;
+      background: #f7faf8;
       overflow: hidden;
     }
-    /* Паттерн совы на фоне */
-    .bg-pattern {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0; top: 0;
+    /* Owl pattern background */
+    .background-owls {
       pointer-events: none;
+      position: absolute;
+      inset: 0;
       z-index: 0;
+      opacity: 0.23;
+      animation: bgFadeIn .8s;
     }
-    .empty-state {
-      z-index: 2;
+    @keyframes bgFadeIn {
+      from { opacity: 0; }
+      to { opacity: 0.23; }
+    }
+
+    /* Welcome block */
+    .welcome {
       position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: -70px;
+      text-align: center;
+      top: -7vh;
     }
     .big-owl {
-      width: 80px;
+      width: 88px; height: 88px;
       margin-bottom: 15px;
-      animation: float-owl 2.5s ease-in-out infinite;
+      animation: popin 0.6s;
     }
-    @keyframes float-owl {
-      0%,100%{transform:translateY(0);}
-      50%{transform:translateY(-18px);}
+    @keyframes popin {
+      0% { transform: scale(0.8) translateY(60px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
     }
-    .empty-title {
-      font-size: 24px;
+    .welcome-title {
+      font-size: 2rem;
       font-weight: 600;
-      color: #222;
-      margin-bottom: 6px;
+      color: #21222c;
     }
-    .empty-desc {
-      color: #92a3a5;
-      font-size: 16px;
+    .welcome-desc {
+      color: #6d8d7b;
+      margin-top: 5px;
+      font-size: 1.13rem;
     }
-    /* Модальное окно создания чата */
-    .modal-overlay {
+
+    /* Modal */
+    .modal-bg {
+      background: rgba(46,56,44,0.18);
       position: fixed;
-      left: 0; top: 0; right: 0; bottom: 0;
-      background: rgba(220, 238, 210, 0.70);
-      z-index: 20;
+      inset: 0;
+      z-index: 11;
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: modal-bg-in .22s;
+      animation: fadeIn .27s;
     }
-    @keyframes modal-bg-in {
-      0%{opacity:0;}
-      100%{opacity:1;}
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     .modal {
       background: #fff;
-      padding: 38px 36px 30px 36px;
-      border-radius: 18px;
-      box-shadow: 0 2px 25px #0f891217;
-      min-width: 345px;
-      min-height: 260px;
+      padding: 32px 28px 26px 28px;
+      border-radius: 22px;
+      box-shadow: 0 6px 32px #20a04228;
+      min-width: 320px;
+      max-width: 94vw;
       position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      animation: pop-modal .28s;
+      text-align: center;
+      animation: popin .35s;
     }
-    @keyframes pop-modal {
-      0%{transform:scale(0.85) translateY(55px);opacity:0;}
-      100%{transform:scale(1) translateY(0);opacity:1;}
-    }
-    .close-modal-btn {
+    .close-modal {
       position: absolute;
-      top: 18px;
-      right: 20px;
-      font-size: 22px;
-      color: #27b944;
+      top: 15px;
+      right: 18px;
+      font-size: 1.65rem;
+      color: #8b8b8b;
       background: none;
       border: none;
       cursor: pointer;
-      transition: color .19s;
-      font-weight: 700;
-      z-index: 21;
+      transition: color .14s;
+      z-index: 2;
     }
-    .modal-owl {
-      width: 64px;
-      margin: 0 0 15px 0;
-      animation: look-owl .8s;
+    .close-modal:hover {
+      color: #ff4545;
     }
-    @keyframes look-owl {
-      0%{transform:translateY(-22px) scale(.9);opacity:0;}
-      50%{transform:translateY(0) scale(1.15);}
-      100%{transform:translateY(0) scale(1);}
+    .modal .modal-owl {
+      width: 68px; height: 68px;
+      margin-bottom: 18px;
+      animation: owlMove 1.3s infinite alternate cubic-bezier(.6,0,.45,1);
+    }
+    @keyframes owlMove {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(10px) scale(1.07); }
     }
     .modal-title {
-      font-size: 22px;
-      font-weight: 600;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #21b745;
+      margin-bottom: 19px;
+    }
+    .modal input {
+      width: 92%;
+      padding: 11px 13px;
+      border: 2px solid #d2e4d6;
+      border-radius: 9px;
+      font-size: 1.11rem;
       margin-bottom: 16px;
-      color: #25ad3b;
-      text-align: center;
-    }
-    .modal-input {
-      width: 100%;
-      padding: 13px 15px;
-      font-size: 16px;
-      border: 2px solid #e2e4e8;
-      border-radius: 8px;
-      margin-bottom: 22px;
       outline: none;
-      transition: border .18s;
+      transition: border .14s;
     }
-    .modal-input:focus {
-      border: 2px solid #25ad3b;
+    .modal input:focus {
+      border: 2px solid #21b74577;
     }
-    .modal-create-btn {
-      width: 100%;
-      padding: 13px 0;
-      background: #25ad3b;
+    .modal-btn {
+      background: #21b745;
       color: #fff;
       border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: 600;
+      border-radius: 10px;
+      font-size: 1.19rem;
+      font-weight: 500;
+      padding: 11px 0;
+      width: 100%;
       cursor: pointer;
-      transition: background .16s;
+      transition: background .13s;
+      margin-top: 3px;
     }
-    .modal-create-btn:hover {
-      background: #18872a;
-    }
-    @media (max-width:700px) {
-      .container { flex-direction: column;}
-      .sidebar { width: 100vw; flex-direction: row; }
-      .sidebar-header { font-size: 18px; }
-      .main-content {padding: 15px;}
-      .modal{min-width:95vw;}
+    .modal-btn:hover {
+      background: #189e38;
     }
   </style>
 </head>
 <body>
-<div class="container">
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <img src="logo.png" alt="SovaApp" />
-      <span>SovaApp</span>
-    </div>
-    <button class="new-chat-btn" id="newChatBtn">+ Новый чат</button>
-    <div class="chats-list" id="chatsList">
-      <!-- Чаты будут сюда добавлены -->
-      <div class="chat-preview selected">
-        <div class="chat-avatar">A</div>
-        <div class="chat-details">
-          <div class="chat-title">Пример чата</div>
-          <div class="chat-last">Тут будет последнее сообщение…</div>
-        </div>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-row">
+        <img class="sova-logo" src="logo.png" alt="SovaApp" />
+        <span class="brand">SovaApp</span>
       </div>
-      <div class="chat-preview">
-        <div class="chat-avatar">B</div>
-        <div class="chat-details">
-          <div class="chat-title">Второй чат</div>
-          <div class="chat-last">Пока тут ничего нет</div>
-        </div>
+      <button class="new-chat-btn" onclick="openModal()">+ Новый чат</button>
+      <div class="chats-list" id="chats-list">
+        <!-- Чаты вставляются JS -->
       </div>
-    </div>
-    <div class="sidebar-footer">
-      <button class="logout-btn" id="logoutBtn">Выйти</button>
-    </div>
+      <button class="logout-btn" onclick="logout()">Выйти</button>
+    </aside>
+    <!-- Main -->
+    <main class="main-area">
+      <canvas id="owls-bg" class="background-owls"></canvas>
+      <div class="welcome" id="welcome-block">
+        <img class="big-owl" src="logo.png" alt="SovaApp" />
+        <div class="welcome-title">Нет сообщений</div>
+        <div class="welcome-desc">Поприветствуйте собеседника!</div>
+      </div>
+    </main>
   </div>
-  <div class="main-content">
-    <!-- Паттерн совы -->
-    <svg class="bg-pattern"></svg>
-    <div class="empty-state" id="emptyState">
-      <svg class="big-owl" viewBox="0 0 90 90">
-        <circle cx="45" cy="45" r="43" fill="#25ad3b"/>
-        <ellipse cx="60" cy="36" rx="8" ry="11" fill="#1c5222"/>
-        <ellipse cx="30" cy="38" rx="8" ry="12" fill="#1c5222"/>
-        <ellipse cx="45" cy="62" rx="16" ry="9" fill="#16682a"/>
-        <ellipse cx="62" cy="38" rx="6" ry="6" fill="#121212"/>
-        <ellipse cx="29" cy="40" rx="6" ry="7" fill="#121212"/>
-        <ellipse cx="47" cy="50" rx="5" ry="5" fill="#FF9933"/>
-      </svg>
-      <div class="empty-title">Нет сообщений</div>
-      <div class="empty-desc">Поприветствуйте собеседника!</div>
-    </div>
-  </div>
-</div>
-<!-- Модальное окно создания чата -->
-<div id="modalOverlay" style="display:none;">
-  <div class="modal-overlay">
+  <!-- Modal Create Chat -->
+  <div class="modal-bg" id="modal-bg" style="display:none;">
     <div class="modal">
-      <button class="close-modal-btn" id="closeModalBtn">&times;</button>
-      <svg class="modal-owl" viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="30" fill="#25ad3b"/>
-        <ellipse cx="43" cy="25" rx="7" ry="9" fill="#1c5222"/>
-        <ellipse cx="21" cy="27" rx="7" ry="9" fill="#1c5222"/>
-        <ellipse cx="32" cy="48" rx="14" ry="8" fill="#16682a"/>
-        <ellipse cx="43" cy="27" rx="5" ry="6" fill="#121212"/>
-        <ellipse cx="21" cy="29" rx="5" ry="6" fill="#121212"/>
-        <ellipse cx="33" cy="37" rx="4" ry="4" fill="#FF9933"/>
-        <!-- Лупа -->
-        <g>
-          <circle cx="53" cy="44" r="5" fill="#fff" stroke="#c2c2c2" stroke-width="2"/>
-          <rect x="57" y="48" width="9" height="2.3" rx="1" fill="#c2c2c2" transform="rotate(41 57 48)"/>
-        </g>
-      </svg>
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+      <img class="modal-owl" src="logo.png" alt="SovaApp" />
       <div class="modal-title">Создать чат</div>
-      <input class="modal-input" id="newChatInput" placeholder="Имя, ник или e-mail"/>
-      <button class="modal-create-btn" id="createChatBtn">Создать чат</button>
+      <input type="text" id="new-chat-name" placeholder="Имя, ник или e-mail" autocomplete="off">
+      <button class="modal-btn" onclick="createChat()">Создать чат</button>
     </div>
   </div>
-</div>
-<script>
-  // Паттерн совы (рандомно по экрану)
-  function drawOwlsPattern() {
-    const svg = document.querySelector('.bg-pattern');
-    svg.innerHTML = "";
-    let width = window.innerWidth - 300, height = window.innerHeight;
-    for(let i=0;i<14;i++){
-      let x = Math.random() * width, y = Math.random() * height;
-      svg.innerHTML += `
-        <svg x="${x}" y="${y}" width="46" height="46" viewBox="0 0 40 40">
-          <circle cx="20" cy="20" r="18" fill="#22a039" fill-opacity=".22"/>
-          <ellipse cx="28" cy="16" rx="3" ry="4.5" fill="#1c5222" fill-opacity=".28"/>
-          <ellipse cx="12" cy="17" rx="3" ry="4.5" fill="#1c5222" fill-opacity=".26"/>
-          <ellipse cx="28" cy="18" rx="2" ry="2.3" fill="#121212" fill-opacity=".22"/>
-          <ellipse cx="12" cy="19" rx="2" ry="2.4" fill="#121212" fill-opacity=".19"/>
-        </svg>`;
+  <script>
+    // Рандомное размещение сов на фоне
+    function drawOwls() {
+      const canvas = document.getElementById('owls-bg');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w = window.innerWidth, h = window.innerHeight;
+      canvas.width = w; canvas.height = h;
+      ctx.clearRect(0, 0, w, h);
+      const n = Math.round(w * h / 35000);
+      for (let i=0; i<n; i++) {
+        let x = Math.random() * w, y = Math.random() * h;
+        let r = 32 + Math.random()*7;
+        ctx.globalAlpha = 0.18 + Math.random()*0.15;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI*2);
+        ctx.fillStyle = '#21b745';
+        ctx.fill();
+        // глаза
+        ctx.globalAlpha = 0.16 + Math.random()*0.09;
+        ctx.beginPath();
+        ctx.arc(x-r/3, y-r/7, r/6.2, 0, Math.PI*2);
+        ctx.arc(x+r/5, y-r/6, r/7.5, 0, Math.PI*2);
+        ctx.fillStyle = '#212c23';
+        ctx.fill();
+        // нос
+        ctx.globalAlpha = 0.16 + Math.random()*0.13;
+        ctx.beginPath();
+        ctx.arc(x, y+r/10, r/8.3, 0, Math.PI);
+        ctx.fillStyle = '#ffb300';
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
     }
-  }
-  drawOwlsPattern();
-  window.addEventListener('resize', drawOwlsPattern);
+    window.addEventListener('resize', drawOwls);
+    drawOwls();
 
-  // Модальное окно новый чат
-  const newChatBtn = document.getElementById('newChatBtn');
-  const modalOverlay = document.getElementById('modalOverlay');
-  const closeModalBtn = document.getElementById('closeModalBtn');
-  newChatBtn.onclick = () => modalOverlay.style.display = 'block';
-  closeModalBtn.onclick = () => modalOverlay.style.display = 'none';
+    // Список чатов (пример, замени на свои данные)
+    let chats = [
+      { name: "Low", lastMsg: "Нет сообщений" },
+      { name: "SovaTest", lastMsg: "Нет сообщений" }
+    ];
+    function renderChats() {
+      const c = document.getElementById('chats-list');
+      c.innerHTML = '';
+      chats.forEach((chat, i) => {
+        const el = document.createElement('div');
+        el.className = 'chat-item';
+        el.innerHTML = `<div class="avatar">${chat.name[0].toUpperCase()}</div>
+        <div class="chat-info">
+          <div class="chat-title">${chat.name}</div>
+          <div class="chat-last-msg">${chat.lastMsg}</div>
+        </div>`;
+        c.appendChild(el);
+      });
+    }
+    renderChats();
 
-  // (Далее добавишь работу с Firebase для чатов, сейчас — заглушка)
-  document.getElementById('createChatBtn').onclick = function() {
-    alert('Функция создания чата будет реализована!');
-    modalOverlay.style.display = 'none';
-  }
-
-  // Logout
-  document.getElementById('logoutBtn').onclick = function() {
-    // Здесь должен быть твой код выхода через Firebase:
-    // firebase.auth().signOut().then(()=>{ window.location.href="index.html"; });
-    window.location.href = "index.html";
-  }
-</script>
+    // Модальное окно
+    function openModal() {
+      document.getElementById('modal-bg').style.display = 'flex';
+      setTimeout(() => {
+        document.getElementById('new-chat-name').focus();
+      }, 230);
+    }
+    function closeModal() {
+      document.getElementById('modal-bg').style.display = 'none';
+      document.getElementById('new-chat-name').value = '';
+    }
+    // Креативная анимация для создания чата можно доработать SVG!
+    function createChat() {
+      const name = document.getElementById('new-chat-name').value.trim();
+      if (name.length < 2) return alert('Введите имя или e-mail!');
+      chats.push({ name, lastMsg: "Нет сообщений" });
+      closeModal();
+      renderChats();
+    }
+    // Logout
+    function logout() {
+      // Сюда вставь свой логаут-скрипт если нужен
+      window.location.href = 'index.html';
+    }
+  </script>
 </body>
 </html>
