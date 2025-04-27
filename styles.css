@@ -1,81 +1,111 @@
 body {
-    background: radial-gradient(circle at 50% 30%, #eceff1 60%, #cfd8dc 100%);
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle, #f7faf7 60%, #ddebe0 100%);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  min-height: 100vh;
 }
+
 .main-container {
-    max-width: 350px;
-    margin: 70px auto 0 auto;
-    background: white;
-    border-radius: 30px;
-    box-shadow: 0 8px 32px 0 rgba(60, 80, 100, 0.13);
-    padding: 32px 24px 28px 24px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
 .header {
-    text-align: center;
-    margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
 }
-.logo {
-    width: 56px;
-    transition: opacity 0.1s;
-    display: block;
-    margin: 0 auto 7px auto;
+
+.logo-anim {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 .logo-title {
-    display: block;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #37474f;
+  font-size: 22px;
+  font-weight: bold;
+  color: #222;
+  margin-top: 6px;
+  letter-spacing: 1px;
 }
+
+#owl {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.8);
+  transition: all 1.2s cubic-bezier(.46,.03,.52,.96);
+}
+#owl.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Оформление формы */
+.auth-container {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 28px #a9c4b638;
+  padding: 36px 30px 28px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 340px;
+}
+
 .auth-container h1 {
-    text-align: center;
-    font-size: 1.5rem;
-    margin: 20px 0 18px 0;
-    color: #222;
+  margin: 0 0 22px 0;
+  font-size: 32px;
+  color: #232d21;
 }
+
 input[type="text"], input[type="password"] {
-    width: 100%;
-    padding: 12px 13px;
-    margin-bottom: 12px;
-    border: 1.4px solid #b0bec5;
-    border-radius: 10px;
-    background: #f5f5f5;
-    font-size: 1rem;
-    transition: border-color 0.2s;
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #b3dbc2;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #f3f8f5;
+  outline: none;
+  transition: border .2s;
 }
-input:focus {
-    border-color: #3cb371;
-    outline: none;
+input[type="text"]:focus, input[type="password"]:focus {
+  border: 1.5px solid #20a042;
+  background: #e5f5ea;
 }
+
 button {
-    width: 100%;
-    padding: 11px;
-    background: #3cb371;
-    color: white;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 7px;
-    box-shadow: 0 2px 10px 0 #90caf940;
-    transition: background 0.18s;
+  width: 100%;
+  padding: 13px 0;
+  border: none;
+  background: #20a042;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 13px;
+  font-weight: 600;
+  transition: background .18s;
 }
 button:hover {
-    background: #388e5c;
+  background: #158031;
 }
+
 .register-link {
-    margin-top: 14px;
-    text-align: center;
-    font-size: 1rem;
+  margin-top: 6px;
+  font-size: 15px;
+  color: #7e9183;
 }
 .register-link a {
-    color: #3cb371;
-    text-decoration: none;
-    font-weight: 600;
-    margin-left: 7px;
+  color: #20a042;
+  text-decoration: none;
+  font-weight: 500;
 }
 .register-link a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
