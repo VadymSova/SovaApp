@@ -1,62 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SovaApp</title>
-  <meta name="viewport" content="width=400">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="logo.png">
-  <!-- Firebase CDN -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-  <script>
-    // ВСТАВЬ СВОЮ КОНФИГУРАЦИЮ из Firebase!
-    const firebaseConfig = {
-      apiKey: "AIzaSyAytgObjNUAb-MJAzDhD4UZQs-LMW17qGRc",
-      authDomain: "sovaapp-a1279.firebaseapp.com",
-      projectId: "sovaapp-a1279",
-      storageBucket: "sovaapp-a1279.appspot.com",
-      messagingSenderId: "71339709900",
-      appId: "1:71339709900:web:7fdba1708a01c5c5f947dfb",
-      measurementId: "G-8DDL7DZQSL"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function register() {
-      const email = document.getElementById('reg-email').value;
-      const password = document.getElementById('reg-password').value;
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => alert('Регистрация успешна!'))
-        .catch(e => alert(e.message));
-    }
-
-    function login() {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => alert('Вход выполнен!'))
-        .catch(e => alert(e.message));
-    }
-  </script>
+    <meta charset="UTF-8">
+    <title>SovaApp</title>
+    <meta name="viewport" content="width=400">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo.png">
 </head>
 <body>
-  <div class="main-container">
-    <header class="header">
-      <img src="logo.png" alt="SovaApp Logo" class="logo">
-      <span class="logo-title">SovaApp</span>
-    </header>
-    <div class="auth-container">
-      <h2>Регистрация</h2>
-      <input id="reg-email" type="text" placeholder="Email">
-      <input id="reg-password" type="password" placeholder="Пароль">
-      <button onclick="register()">Зарегистрироваться</button>
-      <h2>Вход</h2>
-      <input id="login-email" type="text" placeholder="Email">
-      <input id="login-password" type="password" placeholder="Пароль">
-      <button onclick="login()">Войти</button>
+    <div class="main-container">
+        <header class="header">
+            <img src="logo.png" alt="SovaApp Logo" class="logo" id="sova-logo">
+            <span class="logo-title">SovaApp</span>
+        </header>
+        <div class="auth-container">
+            <h1>Sign in</h1>
+            <input type="text" placeholder="Username" id="username">
+            <input type="password" placeholder="Password" id="password">
+            <button id="signin-btn">Sign in</button>
+            <div class="register-link">
+                <span>Don't have an account?</span>
+                <a href="#" id="register-link">Create account</a>
+            </div>
+        </div>
     </div>
-  </div>
+    <script>
+    // Анимация моргания совы
+    window.onload = function() {
+        const logo = document.getElementById('sova-logo');
+        function blink() {
+            logo.style.opacity = '0.7';
+            setTimeout(() => {
+                logo.style.opacity = '1';
+            }, 150);
+        }
+        setInterval(blink, 3500 + Math.random() * 2000); // случайный морг
+    };
+    // Демо: ничего не происходит по кнопкам (ещё нет Firebase)
+    </script>
 </body>
 </html>
