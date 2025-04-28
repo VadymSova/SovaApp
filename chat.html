@@ -13,8 +13,6 @@
     .logo-row .title {font-size:2rem;font-weight:700;color:#222;letter-spacing:1px;}
     .sidebar .btn-new-chat {margin:0 30px 24px 30px;padding:18px;width:calc(100% - 60px);border-radius:10px;border:none;background:#21a042;color:#fff;font-size:1.25rem;font-weight:500;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;}
     .sidebar .btn-new-chat:hover {background:#176b31;}
-    .btn-profile {margin: 0 30px 18px 30px; padding:13px; border-radius:8px; border:2px solid #21a042; background:#fff; color:#21a042; font-size:1.13rem; font-weight:500; cursor:pointer;}
-    .btn-profile:hover {background:#21a042;color:#fff;}
     .chats-list {flex:1;overflow-y:auto;margin:0 0 24px 0;padding:0 16px 0 16px;}
     .chat-item {display:flex;align-items:center;gap:12px;background:#eef6f0;border-radius:9px;margin-bottom:14px;padding:10px 12px;cursor:pointer;transition:background .16s;}
     .chat-item:hover {background:#d5eedc;}
@@ -68,8 +66,6 @@
         <span class="title">SovaApp</span>
       </div>
       <button class="btn-new-chat" id="newChatBtn">+ Новый чат</button>
-      <!-- Кнопка профиль -->
-      <button class="btn-profile" id="profileBtn">Профиль</button>
       <div class="chats-list" id="chatsList"></div>
       <div class="logout-row">
         <button class="btn-logout" id="logoutBtn">Выйти</button>
@@ -90,8 +86,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Модалка "Создать чат" -->
   <div class="modal" id="modal" style="display:none;">
     <div class="modal-window">
       <button class="modal-close" id="closeModal">&times;</button>
@@ -113,26 +107,6 @@
       <button class="btn-create" id="createChatBtn">Создать чат</button>
     </div>
   </div>
-
-  <!-- Модалка ПРОФИЛЬ -->
-  <div class="modal" id="profileModal" style="display:none;">
-    <div class="modal-window">
-      <button class="modal-close" id="closeProfile">&times;</button>
-      <svg class="modal-owl" viewBox="0 0 66 66" fill="none" style="margin-bottom: 8px;">
-        <circle cx="33" cy="33" r="30" fill="#21a042"/>
-        <ellipse cx="24" cy="27" rx="7" ry="8" fill="#fff"/>
-        <ellipse cx="42" cy="27" rx="7" ry="8" fill="#fff"/>
-        <ellipse cx="24" cy="27" rx="2.7" ry="2.7" fill="#232"/>
-        <ellipse cx="42" cy="27" rx="2.7" ry="2.7" fill="#232"/>
-        <ellipse cx="33" cy="44" rx="3.1" ry="2.6" fill="#f19d38"/>
-      </svg>
-      <div class="modal-title">Профиль</div>
-      <input id="profileName" placeholder="Имя" autocomplete="off" style="margin-bottom:10px;">
-      <input id="profileEmail" placeholder="E-mail" autocomplete="off">
-      <button class="btn-create" id="saveProfileBtn" style="margin-top:15px;">Сохранить</button>
-    </div>
-  </div>
-
   <script>
     // Паттерн сов на фоне
     function createOwlsPattern() {
@@ -226,10 +200,7 @@
     newChatBtn.onclick = () => { modal.style.display = 'flex'; };
     closeModalBtn.onclick = () => { modal.style.display = 'none'; };
     window.addEventListener('keydown', e=>{
-      if(e.key==='Escape') {
-        modal.style.display='none';
-        profileModal.style.display='none';
-      }
+      if(e.key==='Escape') modal.style.display='none';
     });
 
     document.getElementById('createChatBtn').onclick = () => {
@@ -237,4 +208,17 @@
       if(val){
         const chats = getChats();
         chats.push(val);
-        saveChats
+        saveChats(chats);
+        renderChats();
+        modal.style.display = 'none';
+        document.getElementById('contactInput').value = '';
+      }
+    };
+
+    // Кнопка "Выйти"
+    document.getElementById('logoutBtn').onclick = () => {
+      window.location.href = 'index.html';
+    };
+  </script>
+</body>
+</html>
